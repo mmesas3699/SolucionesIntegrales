@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> {% block title %} {% endblock %}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 550px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+        
+    /* On small screens, set height to 'auto' for the grid */
+    @media screen and (max-width: 767px) {
+      .row.content {height: auto;} 
+    }
+  </style>
+</head>
+<body>
+
+<!-- Barra de navegación -->
+<nav class="navbar navbar-inverse visible-xs">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <h4> Usuario: {{ name }} </h4>
+    </div>
+    
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="{{ url_for('dashboard')}}">Mensajes</a></li>
+        <li><a href="#">Nueva Factura</a></li>
+        <li><a href="#">Consultar Facturas</a></li>
+        <li><a href="#">Nueva Remisión</a></li>
+        <li><a href="#">Consultar Remisiones</a></li>
+        <li><a href="{{ url_for('logout') }}">Cerrar sesión</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav hidden-xs">
+      <h4> Usuario: {{ name }}</h4>
+      <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a href="{{ url_for('dashboard') }}">Mensajes</a></li>
+        <li><a href="#section2">Nueva Factura</a></li>
+        <li><a href="#section3">Consultar Facturas</a></li>
+        <li><a href="#">Nueva Remisión</a></li>
+        <li><a href="#">Consultar Remisiones</a></li>
+        <li><a href="{{ url_for('logout') }}">Cerrar sesión</a></li>
+      </ul><br>
+    </div>
+
+    <br>
+<!-- Fin barra de navegación -->
+
+    <div class="col-sm-9">
+      {% block content %}
+      
+      <!--
+        <h4>Mensajes</h4>
+          <p>Some text..</p>
+      
+        <div class="table-responsive">
+	      <table class="table table-hover table-striped">
+	        <thead>
+	          <th> # </th>
+	          <th> Nombre Contacto </th>
+	          <th> Correo Contacto </th>
+	          <th> Mensaje </th>
+	          <th> Fecha Mensaje </th>
+	        </thead>
+	        <tbody>
+	          {% for item in form %}
+	    	  <tr>
+	          {{ form.csrf_token }}
+				<td><a href="dashboard/mensajes/{{ item['id'] }}">  {{ item['id'] }}  </a></td>
+				<td> {{ item['nombre']}} </td>
+				<td> {{ item['email'] }} </td>
+				<td> {{ item['mensaje'] }} </td>
+				<td> {{ item['fecha_creacion'].strftime('%Y-%m-%d') }} </td>        			
+	          </tr>
+		      {% endfor %}
+	        </tbody>
+	      </table>
+        </div>
+      </div>
+-->
+      {% endblock %}
+  </div>
+</div>
+</body>
+</html>

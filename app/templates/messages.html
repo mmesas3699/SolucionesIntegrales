@@ -1,0 +1,32 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %} Dashboard | Soluciones {% endblock %}
+
+{% block content %}
+        <h4>Mensajes</h4>
+        <!-- <p>Some text..</p> -->
+        <div class="table-responsive">
+	      <table class="table table-hover table-striped">
+	        <thead>
+	          <th> # </th>
+	          <th> Nombre Contacto </th>
+	          <th> Correo Contacto </th>
+	          <th> Mensaje </th>
+	          <th> Fecha Mensaje </th>
+	        </thead>
+	        <tbody>
+	          {% for item in form %}
+	    	  <tr>
+	          {{ form.csrf_token }}
+				<td> {{ item['id'] }} </td>
+				<td> {{ item['nombre']}} </td>
+				<td> {{ item['email'] }} </td>
+				<td> {{ item['mensaje'] }} </td>
+				<td> {{ item['fecha_creacion'].strftime('%Y-%m-%d') }} </td>        			
+	          </tr>
+		      {% endfor %}
+	        </tbody>
+	      </table>
+        </div>
+      </div>
+{% endblock %}  
