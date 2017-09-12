@@ -2,6 +2,7 @@
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, PasswordField
+from wtforms import IntegerField, DateField
 from wtforms.validators import InputRequired, Email, Length
 import time
 
@@ -28,3 +29,17 @@ class LoginForm(FlaskForm):
                              validators=[InputRequired(),
                                          Length(min=8, max=80)])
     submit = SubmitField('Ingresar')
+
+
+class FormParametrosFactura(FlaskForm):
+    """ Formulario para los Parametros de la factura """
+
+    num_fac_ini = IntegerField('Numero de consecutivo inicial',
+                               validators=[InputRequired()])
+    num_fac_fin = IntegerField('Numero de consecutivo final',
+                               validators=[InputRequired()])
+    num_resolucion = IntegerField('Resolucion DIAN',
+                                  validators=[InputRequired()])
+    fecha_resolucion = DateField('Fecha resolucion',
+                                 validators=[InputRequired()])
+    submit = SubmitField('Guardar')

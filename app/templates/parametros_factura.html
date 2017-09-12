@@ -1,0 +1,36 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %} Parametros | Soluciones {% endblock %}
+
+{% block content %}
+    
+    <h4>Parametros Factura</h4>
+    <br>
+    <div class="row">
+      <div class="col-sm-6">	
+        <form method="POST" action="/procesa_parametros_factura">
+          {{ form.csrf_token }}
+          <div class="form-group">
+            <label> Número de consecutivo inicial </label>
+            {{ form.num_fac_ini(class='form-control') }}
+          </div>
+          <div class="form-group">
+            <label> Número de consecutivo final </label>
+            {{ form.num_fac_fin(class='form-control') }}
+          </div>
+          <div class="form-group">
+            <label> Número de resolución </label>
+            {{ form.num_resolucion(class='form-control') }}
+          </div>
+          <div class="form-group">
+            <label> Fecha de resolución </label>
+            {{ form.fecha_resolucion(class='form-control') }}
+          </div>
+          <div class="form-group">
+            {{ form.submit(class='btn btn-default') }}
+            </div>              
+        </form>
+      </div>
+	</div>
+  
+{% endblock %}  

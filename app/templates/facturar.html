@@ -1,0 +1,44 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %} Facturar | Soluciones {% endblock %}
+
+{% block head %}
+  <script type="text/javascript" src="/static/js/scripts.js"></script>
+{% endblock %}
+
+{% block content %}
+    
+    <h4>Nueva Factura</h4>
+    <br>
+    <div class="row">
+      <button id="but">Click me to hide table</button>
+      {{ numero_factura }}
+       
+     
+      <div class="col-sm-9 table-responsive">
+         <table id="tbl-itemsfactura" class="table table-hover table-bordered table-striped" style="width:100%">
+                  <caption> Items Factura </caption>
+          <thead>
+            <th> # </th>
+            <th> Descripcion </th>
+            <th> Valor Unitario </th>
+            <th> Cantidad </th>
+            <th> % IVA </th>
+            <th> Total </th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><input class="input-sm" type="" name=""></td>
+              <td><input id="vlr-unitario" class="input-sm" type="" name=""></td>
+              <td><input id="cantidad" class="input-sm" type="" name=""></td>
+              <td><input id="prc-iva" class="input-sm" type="" name=""></td>
+              <td><input id="total" class="input-sm" type="" name=""></td>              
+            </tr>
+          </tbody>
+        </table>
+        <button id="button">Change Value</button>      
+      </div>
+  </div>
+
+{% endblock %}
