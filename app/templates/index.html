@@ -1,34 +1,70 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+<title>Soluciones Integrales</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/home.js"></script>
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+body {font-size:16px;}
+.w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+.w3-half img:hover{opacity:1}
+</style>
+<body>
 
-{% block title %} Home | Soluciones {% endblock %}
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-black w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:16px">Cerrar Menu</a>
+  <!-- <div class="w3-container">
+    <h3 class="w3-padding-64"><b>Company<br>Name</b></h3>
+  </div> -->
+  <img src="static/img/logo.png" alt="Fjords" style="width:100%">
+  <div class="w3-bar-block">
+    <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a> 
+    <a href="#showcase" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Showcase</a> 
+    <a href="#services" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Servicios</a> 
+    <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Contacto</a> 
+    <a href="{{ url_for('login')}}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Ingreso</a>
+  </div>
+</nav>
 
-{% block content %}
+<!-- Top menu on small screens -->
+<header class="w3-container w3-top w3-hide-large w3-black w3-xlarge w3-padding">
+  <a href="javascript:void(0)" class="w3-button w3-black w3-margin-right" onclick="w3_open()">☰</a>
+  <span>Soluciones Integrales</span>
+</header>
 
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:340px;margin-right:40px">
 
   <!-- Header -->
-    <div class="w3-container" style="margin-top:80px" id="showcase">
-      <h1 class="w3-jumbo"><b>Soluciones Integrales</b></h1>
-      <hr style="width:50px;border:5px solid blue" class="w3-round">
+  <div class="w3-container" style="margin-top:20px" id="showcase">
+  <!--  <h1 class="w3-xxxlarge"><b>Soluciones Integrales Ignacion Cagua Beltrán</b></h1> -->
+    <h1 class="w3-xxxlarge w3-text-red"><b>Showcase</b></h1>
   </div>
-
-
-  <!-- Photo grid (modal) --> 
+  
+  <!-- Photo grid (modal) -->
   <div class="w3-row-padding">
     <div class="w3-half">
       <img src="static/img/bienes1.png" style="width:100%" onclick="onClick(this)" alt="Concrete meets bricks">
       <img src="static/img/servicios1.png" style="width:100%" onclick="onClick(this)" alt="Light, white and tight scandinavian design">
-      <img src="/w3images/diningroom.jpg" style="width:100%" onclick="onClick(this)" alt="White walls with designer chairs">
+      <!--<img src="static/img/img1.jpeg" style="width:100%" onclick="onClick(this)" alt="White walls with designer chairs"> -->
     </div>
 
     <div class="w3-half">
-      <img src="static/img/servicios1.png" style="width:100%" onclick="onClick(this)" alt="Windows for the atrium">
-      <img src="static/img/bienes1.png" style="width:100%" onclick="onClick(this)" alt="Bedroom and office in one space">
-      <img src="/w3images/livingroom2.jpg" style="width:100%" onclick="onClick(this)" alt="Scandinavian design">
+      <img src="static/img/img1.jpeg" style="width:100%" onclick="onClick(this)" alt="Windows for the atrium">
+      <img src="static/img/img2.jpeg" style="width:100%" onclick="onClick(this)" alt="Bedroom and office in one space">
+      <!-- <img src="static/img/img1.jpeg" style="width:100%" onclick="onClick(this)" alt="Scandinavian design"> -->
     </div>
-  </div> -->
+  </div>
 
-  <!-- Modal for full size images on click -->
+  <!-- Modal for full size images on click-->
   <div id="modal01" class="w3-modal w3-black" style="padding-top:0" onclick="this.style.display='none'">
     <span class="w3-button w3-black w3-xxlarge w3-display-topright">×</span>
     <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
@@ -37,89 +73,91 @@
     </div>
   </div>
 
-  <!-- Services   -->
+  <!-- Services -->
   <div class="w3-container" id="services" style="margin-top:75px">
-    <h1 class="w3-xxxlarge w3-text-red"><b>Services.</b></h1>
-    <hr style="width:50px;border:5px solid red" class="w3-round">
-    <p>We are a interior design service that focus on what's best for your home and what's best for you!</p>
-    <p>Some text about our services - what we do and what we offer. We are lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor
-    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </p>
+    <h1 class="w3-xxxlarge w3-text-red"><b>Servicios</b></h1>
   </div>
-  
-  
-  <!-- Packages / Pricing Tables 
-  <div class="w3-container" id="packages" style="margin-top:75px">
-    <h1 class="w3-xxxlarge w3-text-red"><b>Packages.</b></h1>
-    <hr style="width:50px;border:5px solid red" class="w3-round">
-    <p>Some text our prices. Lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure</p>
-  </div> 
 
-   <div class="w3-row-padding">
+  <div class="w3-row-padding">
     <div class="w3-half w3-margin-bottom">
       <ul class="w3-ul w3-light-grey w3-center">
-        <li class="w3-dark-grey w3-xlarge w3-padding-32">Basic</li>
-        <li class="w3-padding-16">Floorplanning</li>
-        <li class="w3-padding-16">10 hours support</li>
-        <li class="w3-padding-16">Photography</li>
-        <li class="w3-padding-16">20% furniture discount</li>
-        <li class="w3-padding-16">Good deals</li>
-        <li class="w3-padding-16">
-          <h2>$ 199</h2>
-          <span class="w3-opacity">per room</span>
-        </li>
-        <li class="w3-light-grey w3-padding-24">
-          <button class="w3-button w3-white w3-padding-large w3-hover-black">Sign Up</button>
-        </li>
+        <li class="w3-blue w3-xlarge w3-padding-24">Venta y suministro de:</li>
+        <li class="w3-padding-16">Uniformes deportivos</li>
+        <li class="w3-padding-16">Balonería</li>
+        <li class="w3-padding-16">Accesorios para toda clase de deporte</li>
+        <li class="w3-padding-16">Zapatos deportivos</li>
+        <li class="w3-padding-16">Material publicitario</li>
+        <li class="w3-padding-16">Trofeos, medallas, cintas y placas</li>
+        <li class="w3-padding-16">Instrumentos musicales</li>
+        <li class="w3-padding-16">Juguetería</li>
       </ul>
     </div>
         
     <div class="w3-half">
       <ul class="w3-ul w3-light-grey w3-center">
-        <li class="w3-red w3-xlarge w3-padding-32">Pro</li>
-        <li class="w3-padding-16">Floorplanning</li>
-        <li class="w3-padding-16">50 hours support</li>
-        <li class="w3-padding-16">Photography</li>
-        <li class="w3-padding-16">50% furniture discount</li>
-        <li class="w3-padding-16">GREAT deals</li>
-        <li class="w3-padding-16">
-          <h2>$ 249</h2>
-          <span class="w3-opacity">per room</span>
-        </li>
-        <li class="w3-light-grey w3-padding-24">
-          <button class="w3-button w3-red w3-padding-large w3-hover-black">Sign Up</button>
-        </li>
+        <li class="w3-blue w3-xlarge w3-padding-24">Apoyo a la gestión de:</li>
+        <li class="w3-padding-16">Eventos deportivos, culturales y recreativos</li>
+        <li class="w3-padding-16">Mantenimiento, adecuación y construcción de escenarios deportivos y recreativos</li>
       </ul>
     </div>
-  </div> -->
+  </div>
   
   <!-- Contact -->
-
   <div class="w3-container" id="contact" style="margin-top:75px">
-    <h1 class="w3-xxxlarge w3-text-blue"><b>Contacto</b></h1>
-    <hr style="width:50px;border:5px solid black" class="w3-round">
-
-    {% if error %}
-    	<p> Digite un Email valido </p>
-    {% else %}
-	    <form method='POST' >
-	    	{{ form.csrf_token }}
-	    	<div class="w3-section">  
-	        	<label>{{ form.username.label }}</label>
-	        	{{ form.username(class='w3-input w3-border') }}
-	      	</div>
-	      	<div class="w3-section">
-	        	<label> {{ form.email.label}}</label>
-	        	{{ form.email(class='w3-input w3-border', type='email') }}
-	      	</div>
-	      	<div class="w3-section">
-		        <label> {{ form.message.label }}</label>
-		        {{ form.message(class='w3-input w3-border') }}
-          	</div>
-	      	<button class="w3-button w3-block w3-padding-large w3-black w3-margin-bottom"> {{ form.sumbit }} {{ form.submit.label }} </button>
-    	</form>
-    {% endif %}  
+    <h1 class="w3-xxxlarge w3-text-red"><b>Contacto</b></h1>
+    <p>Algún texto relacionado con la solicitud del mensaje</p>
+    <form id="contact-form" method='POST' action="/procesa_mensaje_contacto">
+      {{ form.csrf_token }}
+      <div class="w3-section">
+        <label>Nombre</label>
+        {{ form.username(class='w3-input w3-border') }}
+      </div>
+      <div class="w3-section">
+        <label>Email</label>
+        {{ form.email(class='w3-input w3-border', type='email') }}
+      </div>
+      <div class="w3-section">
+        <label>Mensaje</label>
+        {{ form.message(class='w3-input w3-border') }}
+      </div>
+      <div id="successAlert" class="w3-panel w3-green w3-card-4 w3-padding-16" role="alert" style="display: none;"></div>
+      <div id="errorAlert" class="w3-panel w3-red w3-card-4 w3-padding-16" role="alert" style="display: none;"></div>
+      <button class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom"> {{ form.sumbit }} {{ form.submit.label }} </button>
+      <!-- <button type="submit" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom"> Send</button> -->
+    </form>  
   </div>
 
-{% endblock %}
+<!-- End page content -->
+
+<!-- W3.CSS Container -->
+  <div class="w3-light-grey w3-container w3-teal w3-padding-16" style="margin-top:35px;padding-right:38px">
+    <p class="w3-opacity">Cels: 310 488 4408 - 317 693 7840</p>
+    <p class="w3-opacity">Email: icbcagua@hotmail.com</p>
+    <p class="w3-opacity w3-right w3-small">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></p>
+  </div>
+
+</div>
+
+<script>
+// Script to open and close sidebar
+function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("myOverlay").style.display = "block";
+}
+ 
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("myOverlay").style.display = "none";
+}
+
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+</script>
+
+</body>
+</html>

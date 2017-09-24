@@ -1,20 +1,25 @@
-$(document).ready(function()
+$(document).ready( function () 
 {
-    $("#but").click(function()
-    {
-        $("#tbl-itemsfactura").hide();
-    });
-});
+    $('#tbl-itemsfactura').DataTable(
+        {
+            paging: false,
+            searching: false,
+            ordering: false,
+            select: true,
+            autoWidth: true,
+        });
+} );
 
 $(document).ready(function()
 {
-    $("#button").click(function()
+    var t = $('#tbl-itemsfactura').DataTable();
+    var counter = 2;
+ 
+    $('#addRow').click(function() 
     {
-        var vrlUnitario = $("#vlr-unitario").val();
-        var cantidad = $("#cantidad").val();
-        var prcIva = $("#prc-iva").val();
-        var totlSinIVa = vrlUnitario * cantidad
-        var totlIVa = totlSinIVa * prcIva / 100
-        $("#total").val(totlSinIVa + totlIVa);
-    });
-});
+        t.row.add( 
+            $('<tr><td>counter</td><td><input class="input-sm" type="" name=""></td><td><input id="vlr-unitario" class="input-sm" type="" name=""></td><td><input id="cantidad" class="input-sm" type="" name=""></td><td><input id="prc-iva" class="input-sm" type="" name=""></td><td><input id="total" class="input-sm" type="" name=""></td></tr>') ).draw( false );
+ 
+        counter++;
+    } );
+} );

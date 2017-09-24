@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import render_template, flash, redirect, url_for, request
-# from flask import make_response
+from flask import render_template, redirect, url_for, request, jsonify
 from flask_mail import Message
 from werkzeug.security import check_password_hash  # generate_password_hash,
 from flask_login import login_user, login_required, logout_user, current_user
@@ -12,6 +11,7 @@ from .forms import CommentForm, LoginForm, FormParametrosFactura
 
 
 def generar_numero_factura():
+    """ Genera los números de factura """
     cursor_fac = connectiondb.cursor()
     cursor_param = connectiondb.cursor()
     sql_select_fac = """SELECT num_factura
@@ -46,32 +46,46 @@ def generar_numero_factura():
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def home():
+    """ Renderiza el home """
     form = CommentForm()
 
-    if request.method == 'POST' and form.validate_on_submit():
-        comentario = Comentario(nombre=form.username.data,
-                                email=form.email.data,
-                                mensaje=form.message.data,
+    return render_template('index.html', form=form)
+
+
+@app.route('/procesa_mensaje_contacto', methods=['POST'])
+def procesa_mensaje_contacto():
+    """ Procesa el formulario de contacto """
+    form = CommentForm()
+    username = request.form['username']
+    email = request.form['email']
+    mensaje = request.form['message']
+
+    if request.method == 'POST':
+        comentario = Comentario(nombre=username,
+                                email=email,
+                                mensaje=mensaje,
                                 fecha_creacion=form.now)
 
         db.session.add(comentario)
         db.session.commit()
 
         # Despúes de guardar el mensaje en la base de datos se envia un correo
-        # avisando al administrador del nuevo
+        # avisando al administrador del nuevo mensaje
         msg = Message(
             form.username.data + ' le ha escrito un nuevo mensaje',
             recipients=['mmesa_@hotmail.com'])
 
         msg.body = form.message.data
         mail.send(msg)
+        return jsonify({'success': 'Su mensaje se ha enviado correctamente'})
 
-    return render_template('index.html', form=form)
+    return jsonify({'error': 'Algo salio mal, verifique los datos!'})
 
 
 # Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """ Renderiza el login """
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -86,18 +100,18 @@ def login():
     return render_template('login.html', form=form)
 
 
-# Procesa el Logout de la aplicación
 @app.route('/logout')
 @login_required
 def logout():
+    """ Renderiza el logout """
     logout_user()
     return redirect(url_for('home'))
 
 
-# Dashboard
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    """ Renderiza el dashboard """
     cursor = connectiondb.cursor()
     sql = "SELECT * FROM Comentario ORDER BY id DESC"
     cursor.execute(sql)
@@ -108,13 +122,11 @@ def dashboard():
                            name=current_user.username,
                            form=comentarios)
 
-    connectiondb.close()
 
-
-# Muestra el mensaje seleccionado
 @app.route('/dashboard/mensajes/<id_mensaje>')
 @login_required
 def mensajes(id_mensaje):
+    """ Muestra el mensaje seleccionado """
     cursor = connectiondb.cursor()
     sql = "SELECT * FROM Comentario WHERE id = '%s'" % id_mensaje
     cursor.execute(sql)
@@ -122,22 +134,20 @@ def mensajes(id_mensaje):
     cursor.close()
     return render_template('messages.html', form=mensaje)
 
-    connectiondb.close()
 
-
-# Parametros
 @app.route('/parametros', methods=['GET', 'POST'])
 @login_required
 def parametros():
+    """ Renderiza parametros """
     form = FormParametrosFactura()
 
     return render_template('parametros_factura.html', form=form)
 
 
-# Procesa el formulario parametros factura
 @app.route('/procesa_parametros_factura', methods=['POST'])
 @login_required
 def procesa_parametros_factura():
+    """ Procesa el formulario parametros factura """
     form = FormParametrosFactura()
 
     if request.method == 'POST' and form.validate_on_submit():
@@ -187,6 +197,7 @@ def procesa_parametros_factura():
 @app.route('/nueva_factura', methods=['GET', 'POST'])
 @login_required
 def nueva_factura():
-    numFac = str(generar_numero_factura())
+    """ Genera una nueva factura """
+    num_fac = str(generar_numero_factura())
 
-    return render_template('facturar.html', numero_factura=numFac)
+    return render_template('facturar.html', numero_factura=num_fac)
