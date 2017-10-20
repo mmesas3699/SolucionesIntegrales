@@ -10,6 +10,8 @@ from .models import Comentario, User
 from .forms import CommentForm, LoginForm, FormParametrosFactura
 
 
+# ............ Controladores .................
+
 def generar_numero_factura():
     """ Genera los números de factura """
     cursor_fac = connectiondb.cursor()
@@ -41,6 +43,8 @@ def generar_numero_factura():
 
     connectiondb.close()
 
+
+# ................ Vistas ...................
 
 # Inicio o Home
 @app.route('/', methods=['GET', 'POST'])
@@ -162,12 +166,14 @@ def procesa_parametros_factura():
 
         if resultado is None:
             sql_insert = """INSERT INTO ParametrosFactura (num_fac_ini, num_fac_fin, \
-                            num_resolucion, fecha_resolucion) \
-                            VALUES ('{}', '{}', '{}', '{}';)
+                            num_resolucion, fecha_resolucion,
+                            fecha_venc_resolucion) \
+                            VALUES ('{}', '{}', '{}', '{}', '{}');
                             """.format(form.num_fac_ini.data,
                                        form.num_fac_fin.data,
                                        form.num_resolucion.data,
-                                       form.fecha_resolucion.data)
+                                       form.fecha_resolucion.data,
+                                       form.fecha_venc_resolucion.data)
 
             cursor_insert.execute(sql_insert)
             connectiondb.commit()
@@ -179,12 +185,14 @@ def procesa_parametros_factura():
                             SET num_fac_ini = '{}', \
                                 num_fac_fin = '{}', \
                                 num_resolucion = '{}', \
-                                fecha_resolucion = '{}' \
+                                fecha_resolucion = '{}',
+                                fecha_venc_resolucion = '{}' \
                             WHERE num_fac_ini = '{}';
                             """.format(form.num_fac_ini.data,
                                        form.num_fac_fin.data,
                                        form.num_resolucion.data,
                                        form.fecha_resolucion.data,
+                                       form.fecha_venc_resolucion.data,
                                        int(resultado['num_fac_ini']))
 
             cursor_update.execute(sql_update)

@@ -42,4 +42,6 @@ class FormParametrosFactura(FlaskForm):
                                   validators=[InputRequired()])
     fecha_resolucion = DateField('Fecha resolucion',
                                  validators=[InputRequired()])
+    fecha_venc_resolucion = DateField('Fecha vencimiento resolucion',
+                                      validators=[InputRequired()])
     submit = SubmitField('Guardar')

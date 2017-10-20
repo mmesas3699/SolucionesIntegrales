@@ -451,7 +451,11 @@ class ScriptDirectory(object):
 
     def _generate_create_date(self):
         if self.timezone is not None:
-            tzinfo = tz.gettz(self.timezone.upper())
+            # First, assume correct capitalization
+            tzinfo = tz.gettz(self.timezone)
+            if tzinfo is None:
+                # Fall back to uppercase
+                tzinfo = tz.gettz(self.timezone.upper())
             if tzinfo is None:
                 raise util.CommandError(
                     "Can't locate timezone: %s" % self.timezone)
@@ -488,6 +492,11 @@ class ScriptDirectory(object):
         """
         if head is None:
             head = "head"
+
+        try:
+            Script.verify_rev_id(revid)
+        except revision.RevisionError as err:
+            compat.raise_from_cause(util.CommandError(err.args[0]))
 
         with self._catch_revision_errors(multiple_heads=(
             "Multiple heads are present; please specify the head "
@@ -562,7 +571,10 @@ class ScriptDirectory(object):
             message=message if message is not None else ("empty message"),
             **kw
         )
-        script = Script._from_path(self, path)
+        try:
+            script = Script._from_path(self, path)
+        except revision.RevisionError as err:
+            compat.raise_from_cause(util.CommandError(err.args[0]))
         if branch_labels and not script.branch_labels:
             raise util.CommandError(
                 "Version %s specified branch_labels %s, however the "

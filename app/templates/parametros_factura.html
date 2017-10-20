@@ -4,9 +4,9 @@
 
 {% block content %}
     
-    <h4>Parametros Factura</h4>
-    <br>
-    <div class="row">
+    <h4><b>Parametros Factura</b></h4>
+    <hr>
+    <div class="container-fluid row">
       <div class="col-sm-6">	
         <form method="POST" action="/procesa_parametros_factura">
           {{ form.csrf_token }}
@@ -23,11 +23,15 @@
             {{ form.num_resolucion(class='form-control') }}
           </div>
           <div class="form-group">
-            <label> Fecha de resolución </label>
+            <label> Fecha de resolución <small>(con el formato AAAA-MM-DD)</small></label>
             {{ form.fecha_resolucion(class='form-control') }}
           </div>
           <div class="form-group">
-            {{ form.submit(class='btn btn-default') }}
+            <label> Fecha vencimiento resolución <small>(con el formato AAAA-MM-DD)</small></label>
+            {{ form.fecha_venc_resolucion(class='form-control') }}
+          </div>
+          <div class="form-group">
+            {{ form.submit(class='btn') }}
             </div>              
         </form>
       </div>

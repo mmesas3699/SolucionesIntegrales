@@ -33,6 +33,10 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(20), unique=True)
     password = db.Column(db.String(256), unique=True)
 
+    # me = User('user', generate_password_hash('password')
+    # db.session.add(me)
+    # db.session.commit()
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -49,6 +53,7 @@ class ParametrosFactura(db.Model):
                                primary_key=True,
                                autoincrement=False)
     fecha_resolucion = db.Column(db.DateTime)
+    fecha_venc_resolucion = db.Column(db.DateTime)
 
     def __repr__(self):
         return '<ParametrosFactura: {} {} {}'.format(self.num_fac_ini,

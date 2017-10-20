@@ -2,17 +2,34 @@
 
 {% block title %} Mensajes | Soluciones {% endblock %}
 
+{% block head %}
+<link href="{{ url_for('static', filename='css/messages.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
   {% for item in form %}
 
-    <h4>Mensaje {{ item['id'] }}</h4>
-    <br>
-      <div>
-	  	<p>Nombre: {{ item['nombre'] }} </p>
-		<p>Correo: {{ item['email'] }} </p>
-		<p>Mensaje: </p>
-		<p> {{ item['mensaje'] }} </p>
-		<p> Fecha: {{ item['fecha_creacion'].strftime('%Y-%m-%d') }} </p>        			
+    <h4><b>Mensaje:</b> {{ item['id'] }}</h4>
+    <hr>
+      <div class="container-fluid">
+      	<div class="panel-group">
+      	  <div class="panel panel-info">
+      		<p class="panel-heading">Fecha: </p>  	
+      		<p class="panel-body">{{ item['fecha_creacion'].strftime('%Y-%m-%d') }}</p>
+      	  </div>
+	  	  <div class="panel panel-info">
+	  		<p class="panel-heading">Nombre: </p> 
+	  		<p class="panel-body">{{ item['nombre'] }}</p>
+	      </div>
+	      <div class="panel panel-info">
+	    	<p class="panel-heading">Correo: </p>
+	    	<p class="panel-body">{{ item['email'] }}</p>
+	      </div>	
+		  <div class="panel panel-info">
+			<p class="panel-heading">Mensaje: </p>
+		    <p class="panel-body"> {{ item['mensaje'] }} </p>
+		  </div>		
+	    </div>
 	  </div>
  {% endfor %}
 
