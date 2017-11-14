@@ -18,7 +18,7 @@ def generar_numero_factura():
     cursor_param = connectiondb.cursor()
     sql_select_fac = """SELECT num_factura
                         FROM Factura
-                        ORDER BY num_factura DESC;"""
+                        ORDER BY num_factura DESC LIMIT 1;"""
     sql_select_param = """SELECT num_fac_ini, num_fac_fin
                           FROM ParametrosFactura;"""
 
@@ -136,7 +136,9 @@ def mensajes(id_mensaje):
     cursor.execute(sql)
     mensaje = cursor.fetchall()
     cursor.close()
-    return render_template('messages.html', form=mensaje)
+    return render_template('messages.html',
+                           form=mensaje,
+                           name=current_user.username)
 
 
 @app.route('/parametros', methods=['GET', 'POST'])
@@ -145,7 +147,9 @@ def parametros():
     """ Renderiza parametros """
     form = FormParametrosFactura()
 
-    return render_template('parametros_factura.html', form=form)
+    return render_template('parametros_factura.html',
+                           form=form,
+                           name=current_user.username)
 
 
 @app.route('/procesa_parametros_factura', methods=['POST'])
@@ -205,7 +209,17 @@ def procesa_parametros_factura():
 @app.route('/nueva_factura', methods=['GET', 'POST'])
 @login_required
 def nueva_factura():
-    """ Genera una nueva factura """
+    """ Captura datos de una nueva factura """
     num_fac = str(generar_numero_factura())
 
-    return render_template('facturar.html', numero_factura=num_fac)
+    return render_template('facturar.html',
+                           numero_factura=num_fac,
+                           name=current_user.username)
+
+
+@app.route('/guarda_factura', methods=['GET', 'POST'])
+@login_required
+def guarda_factura():
+    content = request.json
+    print type(content)
+    return jsonify({'success': content['cliente']})

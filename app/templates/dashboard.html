@@ -2,6 +2,10 @@
 
 {% block title %} Dashboard | Soluciones {% endblock %}
 
+{% block head %}
+	<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
         <h4><b>Mensajes</b></h4>
         <hr>
