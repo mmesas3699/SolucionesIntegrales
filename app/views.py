@@ -221,5 +221,5 @@ def nueva_factura():
 @login_required
 def guarda_factura():
     content = request.json
-    print type(content)
+    print content
     return jsonify({'success': content['cliente']})

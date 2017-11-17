@@ -5,11 +5,16 @@ var tablaFacturacion = $('#tabla-facturacion').DataTable({
 });
 
 
+// Imprime los números con formato 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 // Añade una nueva fila
 function addrow()
 {
 
-	$('tbody').append('<tr>'+
+	$('tbody').append('<tr class="fila">'+
 						'<td id="tr-descripcion"><input type="text" class="form-control input-sm"></td>'+
 						'<td id="tr-valUnitario"><input type="text" class="valores unitario form-control input-sm"></td>'+
 						'<td id="tr-cantidad"><input type="text" class="valores cantidad form-control input-sm"></td>'+
@@ -25,12 +30,6 @@ function removerow()
 {
 	$("tr.selected").remove();
 };
-
-
-// Imprime los números con formato 
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
 
 
 // Añade o quita la clase 'selected' para poder eliminar filas
@@ -105,27 +104,72 @@ $(document).ready(function()
 
 	$('#guardar').click(function(event)
 	{
-	
-		function Datos(cliente, direccion, ciudad, telefono, fecha){
+		
+		var fila = $('.fila').toArray();
+		// console.log(fila.length)
+		var arrayFilas = [];
+		var cuenta = 0;
+		var cuentaFilas = 1;
+		var desc;
+		var vUnitario;
+		var cant;
+		var pIva;
+		var vIva;
+		var totItem;
+		var fil = 1
+		
+			while (cuenta < fila.length){
+			var f = [];
+			// console.log(fil, cuenta);
+			desc = $('#tbl-fac-body tr:nth-child('+fil+')').find('#tr-descripcion').children().val();
+			// console.log(desc, fil);
+			vUnitario = $('#tbl-fac-body tr:nth-child('+fil+')').find('#tr-valUnitario').children().val();
+			cant = $('#tbl-fac-body tr:nth-child('+fil+')').find('#tr-cantidad').children().val();
+			pIva = $('#tbl-fac-body tr:nth-child('+fil+')').find('#tr-porcIva').children().val();
+			vIva = $('#tbl-fac-body tr:nth-child('+fil+')').find('#tr-valIva').text();
+			totItem = $('#tbl-fac-body tr:nth-child('+fil+')').find('#tr-valTotal').text();
+
+			f[0] = desc;
+			f[1] = vUnitario;	
+			f[2] = cant;
+			f[3] = pIva;
+			f[4] = vIva;
+			f[5] = totItem;
+			
+			arrayFilas.push(f);
+			cuenta++;
+			fil++;
+
+		}
+
+
+
+		function DatosFactura(cliente, direccion, ciudad, telefono, fecha, items, subtotal, iva, total){
 			this.cliente = cliente;
 			this.direccion = direccion;
 			this.ciudad = ciudad;
 			this.telefono = telefono;
-			this.fecha = fecha
+			this.fecha = fecha;
+			this.items = items;
+			this.subtotal = subtotal;
+			this.iva = iva;
+			this.total = total;
 		};
-	
-		var val = $('.valores');
-		var fila = $('tr')
 
-		var data = new Datos($('#cliente').val(),
+	
+	
+		var data = new DatosFactura($('#cliente').val(),
 							$('#direccion').val(),
 							$('#ciudad').val(),				
 							$('#telefono').val(),
-							$('#fecha').val()
+							$('#fecha').val(),
+							arrayFilas,
+							$('#sumSubtotal').text(),
+							$('#sumTotalIva').text(),
+							$('#sumTotal').text(),
 							)
 		
-		a = val[0]
-		console.log(data, fila, fila.length);
+		console.log(data);
  		
  		$.ajax(
  		{
