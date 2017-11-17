@@ -144,7 +144,8 @@ $(document).ready(function()
 
 
 
-		function DatosFactura(cliente, direccion, ciudad, telefono, fecha, items, subtotal, iva, total){
+		function DatosFactura(numfactura, cliente, direccion, ciudad, telefono, fecha, items, subtotal, iva, total){
+			this.numfactura = numfactura;
 			this.cliente = cliente;
 			this.direccion = direccion;
 			this.ciudad = ciudad;
@@ -158,7 +159,9 @@ $(document).ready(function()
 
 	
 	
-		var data = new DatosFactura($('#cliente').val(),
+		var data = new DatosFactura(
+							$('#numero-factura').text(),
+							$('#cliente').val(),
 							$('#direccion').val(),
 							$('#ciudad').val(),				
 							$('#telefono').val(),
