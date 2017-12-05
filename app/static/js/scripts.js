@@ -99,6 +99,7 @@ $(document).on('change', function()
 	});
 });
 
+// Guarda los datos de la factura
 $(document).ready(function()
 {
 
@@ -144,9 +145,10 @@ $(document).ready(function()
 
 
 
-		function DatosFactura(numfactura, cliente, direccion, ciudad, telefono, fecha, items, subtotal, iva, total){
+		function DatosFactura(numfactura, cliente, identificacion, direccion, ciudad, telefono, fecha, items, subtotal, iva, total){
 			this.numfactura = numfactura;
 			this.cliente = cliente;
+			this.identificacion = identificacion
 			this.direccion = direccion;
 			this.ciudad = ciudad;
 			this.telefono = telefono;
@@ -162,6 +164,7 @@ $(document).ready(function()
 		var data = new DatosFactura(
 							$('#numero-factura').text(),
 							$('#cliente').val(),
+							$('#identificacion').val(),
 							$('#direccion').val(),
 							$('#ciudad').val(),				
 							$('#telefono').val(),
@@ -185,6 +188,8 @@ $(document).ready(function()
    		{
      		//On ajax success do this
      		console.log(data.success);
+     		$('#successAlert').text(data.success).show();
+                
       	},
    		error: function(xhr, ajaxOptions, thrownError)
    		{

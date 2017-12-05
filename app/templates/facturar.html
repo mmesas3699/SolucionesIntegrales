@@ -11,27 +11,32 @@
 {% block content %}
     
     <h4>Nueva Factura</h4>
+    <hr>
     <br>
+    <div id="successAlert" class="alert alert-success" role="alert" style="display: none;"></div>  
     <div id="guardar">
       <button id="guarda-factura" class="btn btn-primary">Guardar</button>
     </div>
     <br>
     <div class="container-fluid">
-      <div>
-        <form class="form-horizontal">
-          <div class="form-group">
-            <label class="control-label col-sm-3">Número factura:</label>
-            <div class="col-sm-6">
-              <p id="numero-factura" class="form-control-static">{{ numero_factura }} </p>
-            </div>
+        <form id="form-numero-factura" class="form-inline">
+          <label id="label-num-factura" class="control-label col-sm-2">Número factura:</label>
+          <div>
+          <p id="numero-factura">{{ numero_factura }} </p>
+          </div>
+        </form>
+        <form>
+          <div class="input-group">
+            <span class="input-group-addon">Cliente</span>
+            <input type="text" id="cliente" class="form-control">
           </div>
         </form>
         <form>
             <div class="input-group">
-              <span class="input-group-addon">Cliente</span>
-              <input type="text" id="cliente" class="form-control">
+              <span class="input-group-addon">No. Identificación</span>
+              <input type="text" id="identificacion" class="form-control">
             </div>
-          </form>
+        </form>
         <form>
             <div name="direccion" class="input-group">
               <span class="input-group-addon">Dirección</span>

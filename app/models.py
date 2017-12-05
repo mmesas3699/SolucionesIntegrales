@@ -33,7 +33,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(20), unique=True)
     password = db.Column(db.String(256), unique=True)
 
-    # me = User('user', generate_password_hash('password')
+    # me = User(username='user', password=generate_password_hash('password')
     # db.session.add(me)
     # db.session.commit()
 
@@ -69,9 +69,8 @@ class Factura(db.Model):
                             primary_key=True,
                             autoincrement=False)
     fecha_factura = db.Column(db.DateTime)
-    nombre_cliente = db.Column(db.String(50))
-    num_ident_cliente = db.Column(db.Integer)
-    porcentaje_iva = db.Column(db.Float)
+    identificacion_cliente = db.Column(db.Integer)
+    sub_total = db.Column(db.Integer)
     val_iva = db.Column(db.Integer)
     val_total = db.Column(db.Integer)
 
@@ -83,9 +82,25 @@ class ItemsFactura(db.Model):
     num_factura = db.Column(db.Integer,
                             primary_key=True,
                             autoincrement=False)
-    consecutivo = db.Column(db.Integer)
-    descripcion = db.Column(db.String(100))
+    consecutivo = db.Column(db.Integer,
+                            primary_key=True,
+                            autoincrement=False)
+    referencia = db.Column(db.String(100))
+    val_unitario = db.Column(db.Integer)
     cantidad_item = db.Column(db.Integer)
     porcentaje_iva = db.Column(db.Float)
     valor_iva_item = db.Column(db.Integer)
     valor_item = db.Column(db.Integer)
+
+
+class Cliente(db.Model):
+
+    __tablename__ = 'Cliente'
+
+    identificacion_cliente = db.Column(db.Integer,
+                                       primary_key=True,
+                                       autoincrement=False)
+    nombre_cliente = db.Column(db.String(70))
+    direccion = db.Column(db.String(70))
+    ciudad = db.Column(db.String(50))
+    telefono = db.Column(db.String(50))

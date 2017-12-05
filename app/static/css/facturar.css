@@ -21,9 +21,27 @@ th {
     margin-bottom: 20px;
 }
 
+#label-num-factura{
+	background-color: DodgerBlue;
+	color: white;
+	text-align: left;
+	border-radius: 3px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+#form-numero-factura{
+	margin-bottom: 20px;
+}
+
 .numero-factura{
 	position: absolute;
     left: 0px;
+}
+
+#numero-factura{
+	text-align: center;
+	padding-left: 10px;
 }
 
 .totales{

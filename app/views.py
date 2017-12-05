@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# 3134991239
 
 from flask import render_template, redirect, url_for, request, jsonify
 from flask_mail import Message
@@ -42,6 +43,105 @@ def generar_numero_factura():
         return str(numero_factura)
 
     connectiondb.close()
+
+
+def sql_guarda_factura(n_factura, fec_factura, iden_cliente,
+                       subtotal, val_iva, val_total):
+
+    cursor_factura = connectiondb.cursor()
+
+    sql_guarda_fac = """INSERT INTO Factura(num_factura,
+                                            fecha_factura,
+                                            identificacion_cliente,
+                                            sub_total,
+                                            val_iva,
+                                            val_total)
+                        VAlUES ('{}','{}','{}',
+                                '{}','{}','{}');""".format(n_factura,
+                                                           fec_factura,
+                                                           iden_cliente,
+                                                           subtotal,
+                                                           val_iva,
+                                                           val_total)
+
+    try:
+        cursor_factura.execute(sql_guarda_fac)
+        connectiondb.commit()
+        return 'OK'
+    except Exception as e:
+        connectiondb.rollback()
+        raise e
+    finally:
+        cursor_factura.close()
+
+
+def sql_guarda_cliente(iden, nombre, direccion, ciudad, tel):
+    ide = iden
+    sql_clien = """SELECT identificacion_cliente
+                   FROM Cliente
+                   WHERE identificacion_cliente = '{}';""".format(ide)
+
+    cursor_clien = connectiondb.cursor()
+    cursor_clien.execute(sql_clien)
+    res = cursor_clien.fetchall()
+    cursor_clien.close()
+
+    if len(res) == 0:
+        sql_guarda_cli = """INSERT INTO Cliente(identificacion_cliente,
+                                                nombre_cliente,
+                                                direccion,
+                                                ciudad,
+                                                telefono)
+                            VALUES ('{}', '{}', '{}',
+                                    '{}', '{}');""".format(iden,
+                                                           nombre,
+                                                           direccion,
+                                                           ciudad,
+                                                           tel)
+        try:
+            cursor_cliente = connectiondb.cursor()
+            cursor_cliente.execute(sql_guarda_cli)
+            connectiondb.commit()
+            return 'OK'
+        except Exception as e:
+            raise e
+            connectiondb.rollback()
+        finally:
+            cursor_cliente.close()
+
+
+def guarda_items_factura(num_fac, consecutivo, ref, valUnit, cant, porIva,
+                         valIva, totItem):
+
+    sql_guarda_items = """INSERT INTO ItemsFactura (num_factura,
+                                                    consecutivo,
+                                                    referencia,
+                                                    val_unitario,
+                                                    cantidad_item,
+                                                    porcentaje_iva,
+                                                    valor_iva_item,
+                                                    valor_item)
+                           VALUES ('{}','{}','{}',
+                                   '{}','{}','{}',
+                                   '{}','{}');""".format(num_fac,
+                                                         consecutivo,
+                                                         ref,
+                                                         valUnit,
+                                                         cant,
+                                                         porIva,
+                                                         valIva,
+                                                         totItem)
+
+    try:
+        cursor_items_factura = connectiondb.cursor()
+        cursor_items_factura.execute(sql_guarda_items)
+        connectiondb.commit()
+        return 'OK'
+    except Exception as e:
+        raise e
+        connectiondb.rollback()
+    finally:
+        cursor_items_factura.close()
 
 
 # ................ Vistas ...................
@@ -202,7 +302,6 @@ def procesa_parametros_factura():
             cursor_update.execute(sql_update)
             connectiondb.commit()
             cursor_update.close()
-            connectiondb.close()
             return "Los datos se guardaron correctamente"
 
 
@@ -220,6 +319,76 @@ def nueva_factura():
 @app.route('/guarda_factura', methods=['GET', 'POST'])
 @login_required
 def guarda_factura():
-    content = request.json
-    print content
-    return jsonify({'success': content['cliente']})
+    data = request.json
+
+    numero_factura = int(data['numfactura'])
+    iden_cliente = int(data['identificacion'])
+    cliente = data['cliente']
+    direccion = data['direccion']
+    ciudad = data['ciudad']
+    telefono = data['telefono']
+    fecha = (data['fecha'])
+    subtotal = int(data['subtotal'].replace(',', ''))
+    iva = int(data['iva'].replace(',', ''))
+    total = int(data['total'].replace(',', ''))
+    items = data['items']
+
+    sql_guarda_factura(numero_factura, fecha, iden_cliente,
+                       subtotal, iva, total)
+
+    sql_guarda_cliente(iden_cliente, cliente, direccion,
+                       ciudad, telefono)
+
+    for item in items:
+        consecutivo = items.index(item) + 1
+        fact = numero_factura
+        ref = item[0]
+        valUnit = item[1]
+        cant = item[2]
+        porIva = item[3]
+        valIva = item[4]
+        totItem = item[5]
+        guarda_items_factura(fact,
+                             consecutivo,
+                             ref,
+                             valUnit,
+                             cant,
+                             porIva,
+                             valIva,
+                             totItem)
+
+    return jsonify({'success': 'Factura guardada correctamente'})
+
+
+@app.route('/consulta-facturas')
+@login_required
+def consulta_facturas():
+    """ Renderiza el dashboard """
+    cursor = connectiondb.cursor()
+    sql = """SELECT Factura.num_factura, Cliente.nombre_cliente,
+             Factura.fecha_factura, Factura.val_total
+             FROM Factura
+             INNER JOIN Cliente
+             ON Factura.identificacion_cliente = Cliente.identificacion_cliente
+             ORDER BY Factura.num_factura DESC;"""
+    cursor.execute(sql)
+    facturas = cursor.fetchall()
+    cursor.close()
+
+    return render_template('consulta-facturas.html',
+                           name=current_user.username,
+                           form=facturas)
+
+
+@app.route('/dashboard/factura/<num_factura>')
+@login_required
+def factura(num_factura):
+    """ Muestra el mensaje seleccionado """
+    cursor = connectiondb.cursor()
+    sql = "SELECT * FROM Factura WHERE num_factura = '%s'" % num_factura
+    cursor.execute(sql)
+    factura = cursor.fetchall()
+    cursor.close()
+    return render_template('factura.html',
+                           form=factura,
+                           name=current_user.username)
