@@ -1,0 +1,38 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %} Parametros | Soluciones {% endblock %}
+
+{% block content %}
+    
+    <h4><b>Parametros Factura</b></h4>
+    <hr>
+      <div class="container-fluid row">
+        <div class="col-sm-6">  
+            <div class="form-group">
+              <p> Número de consecutivo inicial </p>
+              {{ parametros[0]['num_fac_ini'] }}
+            </div>
+            <div class="form-group">
+              <p> Número de consecutivo final </p>
+              {{ parametros[0]['num_fac_fin'] }}
+            </div>
+            <div class="form-group">
+              <p> Número de resolución </p>
+              {{ parametros[0]['num_resolucion'] }}
+            </div>
+            <div class="form-group">
+              <p> Fecha de resolución</small></p>
+              {{ parametros[0]['fecha_resolucion'].strftime('%Y-%m-%d') }}
+            </div>
+            <div class="form-group">
+              <p> Fecha vencimiento resolución</small></p>
+              <p>{{ parametros[0]['fecha_venc_resolucion'].strftime('%Y-%m-%d') }}<p>
+            </div>
+            <div class="form-group">
+              <a href="{{ url_for('actualiza_parametros')}}">Actualizar Parametros</a>
+            </div>           
+          </form>
+        </div>
+      </div>
+      
+{% endblock %}  

@@ -2,9 +2,11 @@
 # 3134991239
 
 from flask import render_template, redirect, url_for, request, jsonify
+from flask import make_response
 from flask_mail import Message
 from werkzeug.security import check_password_hash  # generate_password_hash,
 from flask_login import login_user, login_required, logout_user, current_user
+from flask_weasyprint import HTML, render_pdf
 
 from app import app, db, mail, connectiondb
 from .models import Comentario, User
@@ -246,9 +248,33 @@ def mensajes(id_mensaje):
 def parametros():
     """ Renderiza parametros """
     form = FormParametrosFactura()
+    cursor = connectiondb.cursor()
+    sql = "SELECT * FROM ParametrosFactura"
+    cursor.execute(sql)
+    parametro = cursor.fetchall()
+    cursor.close()
 
-    return render_template('parametros_factura.html',
-                           form=form,
+    if parametro:
+        return redirect(url_for('consulta_parametros'))
+    else:
+        return render_template('parametros_factura.html',
+                               form=form,
+                               name=current_user.username)
+
+
+@app.route('/consulta_parametros')
+@login_required
+def consulta_parametros():
+    """ Para consultar los parametros creados"""
+    cursor = connectiondb.cursor()
+    sql = "SELECT * FROM ParametrosFactura"
+    cursor.execute(sql)
+    parametro = cursor.fetchall()
+    cursor.close()
+
+    print parametro
+    return render_template('consulta_parametros.html',
+                           parametros=parametro,
                            name=current_user.username)
 
 
@@ -303,6 +329,17 @@ def procesa_parametros_factura():
             connectiondb.commit()
             cursor_update.close()
             return "Los datos se guardaron correctamente"
+
+
+@app.route('/actualiza_parametros')
+@login_required
+def actualiza_parametros():
+    """ actualiza los parametros"""
+    form = FormParametrosFactura()
+
+    return render_template('parametros_factura.html',
+                           form=form,
+                           name=current_user.username)
 
 
 @app.route('/nueva_factura', methods=['GET', 'POST'])
@@ -384,11 +421,133 @@ def consulta_facturas():
 @login_required
 def factura(num_factura):
     """ Muestra el mensaje seleccionado """
-    cursor = connectiondb.cursor()
-    sql = "SELECT * FROM Factura WHERE num_factura = '%s'" % num_factura
-    cursor.execute(sql)
-    factura = cursor.fetchall()
-    cursor.close()
+    cursor_factura = connectiondb.cursor()
+    sql_factura = """SELECT * FROM Factura
+                     WHERE num_factura = '%s'""" % num_factura
+    cursor_factura.execute(sql_factura)
+    factura = cursor_factura.fetchone()
+    cursor_factura.close()
+
+    cursor_items_factura = connectiondb.cursor()
+    sql_items_factura = """SELECT * FROM ItemsFactura
+                           WHERE num_factura = '%s'""" % num_factura
+    cursor_items_factura.execute(sql_items_factura)
+    items_factura = cursor_items_factura.fetchall()
+    cursor_items_factura.close()
+
+    cursor_parametros = connectiondb.cursor()
+    sql_parametros = """SELECT * FROM ParametrosFactura"""
+    cursor_parametros.execute(sql_parametros)
+    parametros = cursor_parametros.fetchone()
+    cursor_parametros.close()
+
+    # Formatea el numero de factura para la resolución
+    cero = '0'
+    param_num_fac_ini = str(parametros['num_fac_ini'])
+    param_num_fac_fin = str(parametros['num_fac_fin'])
+    while len(param_num_fac_ini) < len(param_num_fac_fin):
+        param_num_fac_ini = cero[:] + param_num_fac_ini
+
+    # Formatea el numero de factura
+    numero_factura = str(factura['num_factura'])
+    ultm_consecutivo = str(parametros['num_fac_fin'])
+
+    while len(numero_factura) < len(ultm_consecutivo):
+        numero_factura = cero[:] + numero_factura
+
+    # Datos del cliente
+    cursor_datos_cliente = connectiondb.cursor()
+    sql_datos_cliente = """SELECT Factura.num_factura, Cliente.nombre_cliente,
+                           Cliente.identificacion_cliente, Cliente.direccion,
+                           Cliente.ciudad, Cliente.telefono
+                           FROM Factura
+                           INNER JOIN Cliente
+                           ON Factura.identificacion_cliente = Cliente.identificacion_cliente
+                           WHERE Factura.num_factura = '{}'
+                           ORDER BY Factura.num_factura DESC;""".format(factura['num_factura'])
+    cursor_datos_cliente.execute(sql_datos_cliente)
+    datos_cliente = cursor_datos_cliente.fetchone()
+    cursor_datos_cliente.close()
+
     return render_template('factura.html',
-                           form=factura,
+                           parametros=parametros,
+                           param_num_fac_ini=param_num_fac_ini,
+                           datos_cliente=datos_cliente,
+                           factura=factura,
+                           numero_factura=numero_factura,
+                           items_factura=items_factura,
                            name=current_user.username)
+
+
+@app.route('/dashboard/factura/pdf/<num_factura>')
+@login_required
+def pdf(num_factura):
+    cursor_factura = connectiondb.cursor()
+    sql_factura = """SELECT * FROM Factura
+                     WHERE num_factura = '%s'""" % num_factura
+    cursor_factura.execute(sql_factura)
+    factura = cursor_factura.fetchone()
+    cursor_factura.close()
+
+    # Formato a los valores de la factura
+    factura['sub_total'] = format(factura['sub_total'], ",d")
+    factura['val_iva'] = format(factura['val_iva'], ",d")
+    factura['val_total'] = format(factura['val_total'], ",d")
+
+    cursor_items_factura = connectiondb.cursor()
+    sql_items_factura = """SELECT cantidad_item, referencia, val_unitario,
+                                  valor_item
+                           FROM ItemsFactura
+                           WHERE num_factura = '%s'""" % num_factura
+    cursor_items_factura.execute(sql_items_factura)
+    items_factura = cursor_items_factura.fetchall()
+    cursor_items_factura.close()
+
+    for item in items_factura:
+        item['val_unitario'] = format(item['val_unitario'], ",d")
+        item['valor_item'] = format(item['valor_item'], ",d")
+
+    cursor_parametros = connectiondb.cursor()
+    sql_parametros = """SELECT * FROM ParametrosFactura"""
+    cursor_parametros.execute(sql_parametros)
+    parametros = cursor_parametros.fetchone()
+    cursor_parametros.close()
+
+    # Formatea el numero de factura para la resolución
+    cero = '0'
+    param_num_fac_ini = str(parametros['num_fac_ini'])
+    param_num_fac_fin = str(parametros['num_fac_fin'])
+    while len(param_num_fac_ini) < len(param_num_fac_fin):
+        param_num_fac_ini = cero[:] + param_num_fac_ini
+
+    # Formatea el numero de factura
+    numero_factura = str(factura['num_factura'])
+    ultm_consecutivo = str(parametros['num_fac_fin'])
+
+    while len(numero_factura) < len(ultm_consecutivo):
+        numero_factura = cero[:] + numero_factura
+
+    # Datos del cliente
+    cursor_datos_cliente = connectiondb.cursor()
+    sql_datos_cliente = """SELECT Factura.num_factura, Cliente.nombre_cliente,
+                           Cliente.identificacion_cliente, Cliente.direccion,
+                           Cliente.ciudad, Cliente.telefono
+                           FROM Factura
+                           INNER JOIN Cliente
+                           ON Factura.identificacion_cliente = Cliente.identificacion_cliente
+                           WHERE Factura.num_factura = '{}'
+                           ORDER BY Factura.num_factura DESC;""".format(factura['num_factura'])
+    cursor_datos_cliente.execute(sql_datos_cliente)
+    datos_cliente = cursor_datos_cliente.fetchone()
+    cursor_datos_cliente.close()
+
+    html = render_template('factura-pdf.html',
+                           parametros=parametros,
+                           param_num_fac_ini=param_num_fac_ini,
+                           datos_cliente=datos_cliente,
+                           factura=factura,
+                           numero_factura=numero_factura,
+                           items_factura=items_factura,
+                           name=current_user.username)
+
+    return render_pdf(HTML(string=html))

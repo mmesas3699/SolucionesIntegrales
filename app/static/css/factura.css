@@ -1,0 +1,46 @@
+#contenedor {
+	margin-top: 10px;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+
+h3, h4{
+	text-align: center;
+}
+
+#AlmacenDeportivo {
+	color: blue;
+}
+
+p {
+	text-align: center;
+}
+
+#NumeroFactura {
+	border: 1px solid lightgray;
+    border-radius: 5px;
+	background-color: white;
+}
+
+#txtNumeroFactura {
+	color: red;
+}
+
+.firmas {
+	border: 1px solid lightgray;
+}
+
+th {
+	background-color: #0000ff; 
+	color: white;
+	text-align: center;
+}
+
+#disclaimer {
+	font-size: 10px;
+}

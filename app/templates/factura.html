@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Factura {{ factura['num_factura'] }} </title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/static/css/factura.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/factura.js"></script> 
+</head>
+<body style="background-color: lightgrey">
+<!-- Contenedor -->  
+  <div id="contenedor" class="container well">
+    
+    <!-- Logo -->
+    <div id="logo">
+	  <img src="/static/img/logo.png" alt="Logo">
+	</div>
+    <!-- Fin Logo -->
+    
+    <!-- Encabezado -->
+    <div id="encabezado">
+	  <h3 id="AlmacenDeportivo">ALMACEN DEPORTIVO</h3>
+	  <h4>NIT: 3151582-3 REG.COMUN </h4>
+	  <p>Resolución {{ parametros['num_resolucion'] }} Fecha {{ parametros['fecha_resolucion'].strftime('%Y-%m-%d') }} Numeración autorizada {{ param_num_fac_ini }} al {{ parametros['num_fac_fin'] }}<br>
+	     Sudaderas - Uniformes - Zapato deportivo - Baloneria - Trofeso y demás accesorios <br>	
+	     Empresas - Colegios e Instituciones deportivas <br>
+	     Urbanización 10 de Febrero Manzana 1 Casa 8, San Antonio del Tequendama0 <br> 
+	     Tel: 310 488 4408 Email: icbcagua@hotmail.com </p> 	
+	</div>
+	<!-- Fin encabezados -->
+
+	<!-- Datos factura -->
+	<div class="row">
+	  <div class="col-sm-8">
+	    <ul class=" list-group">
+	      <li class="list-group-item"> <b>Señor(es):</b> {{ datos_cliente['nombre_cliente'] }}</li>
+		  <li class="list-group-item"><b>Dirección:</b> {{ datos_cliente['direccion']}}</li>
+		  <li class="list-group-item"><b>Ciudad:</b> {{ datos_cliente['ciudad'] }}</li>
+		  <li class="list-group-item"><b>Teléfono:</b> {{ datos_cliente['telefono'] }}</li>
+		</ul>
+	  </div>
+	  <div class="col-sm-4">
+	    <div id="NumeroFactura">
+	      <h4 id="txtNumeroFactura">Factura No.</h4>
+    	  <h4>{{ numero_factura }}</h4>	
+	    </div>
+		<div>
+	      <h4>Fecha</h4>
+	      <h4>{{ factura['fecha_factura'].strftime('%Y-%m-%d') }}</h4>
+		</div>	    
+	  </div>
+	</div>	
+	<!-- Fin Datos factura -->
+
+	<!-- Items factura -->
+    <div class="table-responsive">
+	    <table class="table table-bordered">
+	      <thead>
+	        <th> CANTIDAD </th>
+	        <th> REFERENCIA </th>
+	        <th> VR. UNIT. </th>
+	        <th> VR. TOTAL </th>
+	      </thead>
+	      <tbody>
+	        {% for item in items_factura %}
+	          <tr>
+	            <td> {{ item['cantidad_item'] }}  </a></td>
+			    <td> {{ item['referencia'] }} </td>
+				<td> {{ item['val_unitario'] }} </td>
+				<td> {{ item['valor_item'] }} </td>	
+	          </tr>
+		    {% endfor %}
+	      </tbody>
+	    </table>
+    </div>
+    <!-- Fin items factura -->
+
+    <!-- Valores totales factura -->
+    <div class="row">
+    	<div class="col-sm-8">
+    	  <ul class=" list-group">
+	        <li class="list-group-item"><b>SON: </b></li>
+		    <li id="disclaimer"class="list-group-item">ESTA FACTURA ES IGUAL EN TODOS SUS EFECTOS A LA LETRA DE CAMBIO SEGUN ART. 774 DEL CODIGO DEL COMERCIO</li>
+		  </ul>	
+    	</div>
+    	<div class="col-sm-4">
+    	  <ul class=" list-group">
+	        <li class="list-group-item"><b>SUB-TOTAL: $</b> {{ factura['sub_total'] }}</li>
+		    <li class="list-group-item"><b>IVA: $</b> {{ factura['val_iva'] }}</li>
+		    <li class="list-group-item"><b>TOTAL: $</b> {{ factura['val_total'] }}</li>
+		  </ul>
+    	</div>
+    </div>
+    <!-- Fin valores totales --> 
+    <!-- Firmas -->
+    <div class="row">
+      <div class="col-sm-6 firmas" >
+      	<p>FIRMA Y SELLO DEL CLIENTE</p>
+      </div>
+      <div class="col-sm-6 firmas">
+      	<P>ATENTAMENTE</P>
+      </div>
+    </div>
+    <!-- Fin firmas -->
+    <div class="container">
+      <div class="row justify-content-center" style="padding-top: 10px;">
+      	<div class="col-sm-6">
+      	  <a href="pdf/{{ factura['num_factura'] }}" class="btn btn-info" role="button">IMPRIMIR</a>		
+      	</div>
+      </div>
+    </div>
+  </div>
+<!-- Fin contenedor -->
+</body>
+</html>
+
+
+
+        
