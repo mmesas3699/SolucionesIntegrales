@@ -146,6 +146,71 @@ def guarda_items_factura(num_fac, consecutivo, ref, valUnit, cant, porIva,
         cursor_items_factura.close()
 
 
+# ---------------- Remisiones
+
+def sql_guarda_remision(num_rem, fec_rem, iden_cliente,
+                        subtotal, val_iva, val_total):
+
+    cursor_remision = connectiondb.cursor()
+
+    sql_guarda_rem = """INSERT INTO Remision(num_remision,
+                                             fecha_remision,
+                                             identificacion_cliente,
+                                             sub_total,
+                                             val_iva,
+                                             val_total)
+                        VAlUES ('{}','{}','{}',
+                                '{}','{}','{}');""".format(num_rem,
+                                                           fec_rem,
+                                                           iden_cliente,
+                                                           subtotal,
+                                                           val_iva,
+                                                           val_total)
+
+    try:
+        cursor_remision.execute(sql_guarda_rem)
+        connectiondb.commit()
+        return 'OK'
+    except Exception as e:
+        connectiondb.rollback()
+        raise e
+    finally:
+        cursor_remision.close()
+
+
+def guarda_items_remision(num_rem, consecutivo, ref, valUnit, cant, porIva,
+                          valIva, totItem):
+
+    sql_guarda_items = """INSERT INTO ItemsRemision(num_remision,
+                                                    consecutivo,
+                                                    referencia,
+                                                    val_unitario,
+                                                    cantidad_item,
+                                                    porcentaje_iva,
+                                                    valor_iva_item,
+                                                    valor_item)
+                           VALUES ('{}','{}','{}',
+                                   '{}','{}','{}',
+                                   '{}','{}');""".format(num_rem,
+                                                         consecutivo,
+                                                         ref,
+                                                         valUnit,
+                                                         cant,
+                                                         porIva,
+                                                         valIva,
+                                                         totItem)
+
+    try:
+        cursor_items_remision = connectiondb.cursor()
+        cursor_items_remision.execute(sql_guarda_items)
+        connectiondb.commit()
+        return 'OK'
+    except Exception as e:
+        raise e
+        connectiondb.rollback()
+    finally:
+        cursor_items_remision.close()
+
 # ................ Vistas ...................
 
 # Inicio o Home
@@ -420,7 +485,7 @@ def consulta_facturas():
 @app.route('/dashboard/factura/<num_factura>')
 @login_required
 def factura(num_factura):
-    """ Muestra el mensaje seleccionado """
+    """ Muestra la factura seleccionada """
     cursor_factura = connectiondb.cursor()
     sql_factura = """SELECT * FROM Factura
                      WHERE num_factura = '%s'""" % num_factura
@@ -551,3 +616,88 @@ def pdf(num_factura):
                            name=current_user.username)
 
     return render_pdf(HTML(string=html))
+
+
+@app.route('/remision', methods=['GET', 'POST'])
+@login_required
+def nueva_remision():
+    """ Captura datos de una nueva factura """
+
+    return render_template('remision.html',
+                           name=current_user.username)
+
+
+@app.route('/guarda_remision', methods=['GET', 'POST'])
+@login_required
+def guarda_remision():
+    data = request.json
+
+    sql_num_rem = """ SELECT num_remision FROM Remision ORDER BY num_remision
+                      DESC LIMIT 1;"""
+
+    cursor_num_rem = connectiondb.cursor()
+    cursor_num_rem.execute(sql_num_rem)
+    rem = cursor_num_rem.fetchone()
+    cursor_num_rem.close()
+
+    if rem is None:
+        rem = 1
+    else:
+        rem = rem['num_remision'] + 1
+
+    iden_cliente = int(data['identificacion'])
+    cliente = data['cliente']
+    direccion = data['direccion']
+    ciudad = data['ciudad']
+    telefono = data['telefono']
+    fecha = (data['fecha'])
+    subtotal = int(data['subtotal'].replace(',', ''))
+    iva = int(data['iva'].replace(',', ''))
+    total = int(data['total'].replace(',', ''))
+    items = data['items']
+
+    sql_guarda_remision(rem, fecha, iden_cliente,
+                        subtotal, iva, total)
+
+    sql_guarda_cliente(iden_cliente, cliente, direccion,
+                       ciudad, telefono)
+
+    for item in items:
+        rem = rem
+        ref = item[0]
+        consecutivo = items.index(item) + 1
+        valUnit = item[1]
+        cant = item[2]
+        porIva = item[3]
+        valIva = item[4]
+        totItem = item[5]
+        guarda_items_remision(rem,
+                              consecutivo,
+                              ref,
+                              valUnit,
+                              cant,
+                              porIva,
+                              valIva,
+                              totItem)
+
+    return jsonify({'success': 'Remision guardada correctamente'})
+
+
+@app.route('/remisiones')
+@login_required
+def remisiones():
+    """ Consulta de remisiones """
+    cursor = connectiondb.cursor()
+    sql = """SELECT Remision.num_remision, Cliente.nombre_cliente,
+             Remision.fecha_remision, Remision.val_total
+             FROM Remision
+             INNER JOIN Cliente
+             ON Remision.identificacion_cliente = Cliente.identificacion_cliente
+             ORDER BY Remision.num_remision DESC;"""
+    cursor.execute(sql)
+    remisiones = cursor.fetchall()
+    cursor.close()
+
+    return render_template('remisiones.html',
+                           name=current_user.username,
+                           form=remisiones)

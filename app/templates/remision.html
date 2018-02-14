@@ -1,0 +1,95 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %} Remisión | Soluciones {% endblock %}
+
+{% block head %}
+  <link href="{{ url_for('static', filename='css/remision.css') }}" rel="stylesheet">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="/static/js/remision.js"></script>  
+{% endblock %}
+
+{% block content %}
+    
+    <h4>Nueva Remision</h4>
+    <hr>
+    <br>
+    <div id="successAlert" class="alert alert-success" role="alert" style="display: none;"></div>  
+    <div id="guardar">
+      <button id="guarda-remision" class="btn btn-primary">Guardar</button>
+    </div>
+    <br>
+    <br>
+    <div class="container-fluid">
+        <form>
+          <div class="input-group">
+            <span class="input-group-addon">Cliente</span>
+            <input type="text" id="cliente" class="form-control">
+          </div>
+        </form>
+        <form>
+            <div class="input-group">
+              <span class="input-group-addon">No. Identificación</span>
+              <input type="text" id="identificacion" class="form-control">
+            </div>
+        </form>
+        <form>
+            <div name="direccion" class="input-group">
+              <span class="input-group-addon">Dirección</span>
+              <input id="direccion" class="form-control">
+            </div>
+        </form>
+        <form>
+            <div name="ciudad" class="input-group">
+              <span class="input-group-addon">Ciudad</span>
+              <input id="ciudad" class="form-control">
+            </div>
+        </form>
+        <form>
+            <div name="telefono" class="input-group">
+              <span class="input-group-addon">Teléfono</span>
+              <input id="telefono" class="form-control">
+            </div>
+        </form>
+        <form>
+            <div name="fecha" class="input-group">
+              <span class="input-group-addon">Fecha</span>
+              <input id="fecha" class="form-control" placeholder="Formato AAAA-MM-DD">
+            </div>
+        </form>
+      </div>
+      <div class="table-responsive">
+        <table id="tabla-remision" class="table table-condensed table-sm display" style="width:100%">
+          <thead>
+            <tr>
+              <th style="width: 30%">Referencia</th>
+              <th style="width: 10%">Valor Unitario </th>
+              <th style="width: 5%">Cantidad</th>
+              <th style="width: 8%">% IVA</th>
+              <th style="width: 8%">Valor IVA</th>
+              <th style="width: 8%">Total Item</th>
+            </tr>
+          </thead>
+          <tbody id="tbl-rem-body">
+            <tr class="fila">
+              <td id="tr-descripcion"><input type="text" class="valores form-control input-sm"></td>
+              <td id="tr-valUnitario"><input type="text" class="valores unitario form-control input-sm"></td>
+              <td id="tr-cantidad"><input type="text" class="valores cantidad form-control input-sm"></td>
+              <td id="tr-porcIva"><input type="text" class="valores porcIva form-control input-sm"></td>
+              <td id="tr-valIva" class="valIva"></td>
+              <td id="tr-valTotal" class="valTotal"></td>
+            </tr>
+          </tbody>
+        </table>  
+      </div>
+      <div class="col-sm-2">
+        <button id="add-row" class="btn btn-primary" onclick="addrow()">Agregar</button><br>
+        <button id="remove-row" class="btn btn-warning" onclick="removerow()">Eliminar</button>
+      </div>
+      <div id="totales" class="col-sm-4 well">
+        <p class="totales"><b>Subtotal: </b></p><p id="sumSubtotal" class="totales valores-totales"></p><br>
+        <p class="totales"><b>IVA: </b></p><p id="sumTotalIva" class="totales valores-totales"></p><br>
+        <p class="totales"><b>Total: </b></p><p id="sumTotal" class="totales valores-totales"></p>
+      </div>  
+    </div>
+  
+{% endblock %}

@@ -104,3 +104,35 @@ class Cliente(db.Model):
     direccion = db.Column(db.String(70))
     ciudad = db.Column(db.String(50))
     telefono = db.Column(db.String(50))
+
+
+class Remision(db.Model):
+
+    __tablename__ = 'Remision'
+
+    num_remision = db.Column(db.Integer,
+                            primary_key=True,
+                            autoincrement=False)
+    fecha_remision = db.Column(db.DateTime)
+    identificacion_cliente = db.Column(db.Integer)
+    sub_total = db.Column(db.Integer)
+    val_iva = db.Column(db.Integer)
+    val_total = db.Column(db.Integer)
+
+
+class ItemsRemision(db.Model):
+
+    __tablename__ = 'ItemsRemision'
+
+    num_remision = db.Column(db.Integer,
+                            primary_key=True,
+                            autoincrement=False)
+    consecutivo = db.Column(db.Integer,
+                            primary_key=True,
+                            autoincrement=False)
+    referencia = db.Column(db.String(100))
+    val_unitario = db.Column(db.Integer)
+    cantidad_item = db.Column(db.Integer)
+    porcentaje_iva = db.Column(db.Float)
+    valor_iva_item = db.Column(db.Integer)
+    valor_item = db.Column(db.Integer)
