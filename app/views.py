@@ -701,3 +701,57 @@ def remisiones():
     return render_template('remisiones.html',
                            name=current_user.username,
                            form=remisiones)
+
+
+@app.route('/dashboard/remisiones/pdf/<num_remision>')
+@login_required
+def remision(num_remision):
+    """ Imprimir Remisión """
+
+    cursor_remision = connectiondb.cursor()
+    sql_remision = """SELECT * FROM Remision
+                     WHERE num_remision = '%s'""" % num_remision
+    cursor_remision.execute(sql_remision)
+    remision = cursor_remision.fetchone()
+    cursor_remision.close()
+
+    # Formato a los valores de la remision
+    remision['sub_total'] = format(remision['sub_total'], ",d")
+    remision['val_iva'] = format(remision['val_iva'], ",d")
+    remision['val_total'] = format(remision['val_total'], ",d")
+
+    cursor_items_remision = connectiondb.cursor()
+    sql_items_remision = """SELECT cantidad_item, referencia, val_unitario,
+                                  valor_item
+                           FROM ItemsRemision
+                           WHERE num_remision = '%s'""" % num_remision
+    cursor_items_remision.execute(sql_items_remision)
+    items_remision = cursor_items_remision.fetchall()
+    cursor_items_remision.close()
+
+    for item in items_remision:
+        item['val_unitario'] = format(item['val_unitario'], ",d")
+        item['valor_item'] = format(item['valor_item'], ",d")
+
+    # Datos del cliente
+    cursor_datos_cliente = connectiondb.cursor()
+    sql_datos_cliente = """SELECT Remision.num_remision, Cliente.nombre_cliente,
+                           Cliente.identificacion_cliente, Cliente.direccion,
+                           Cliente.ciudad, Cliente.telefono
+                           FROM Remision
+                           INNER JOIN Cliente
+                           ON Remision.identificacion_cliente = Cliente.identificacion_cliente
+                           WHERE Remision.num_remision = '{}'
+                           ORDER BY Remision.num_remision DESC;""".format(remision['num_remision'])
+    cursor_datos_cliente.execute(sql_datos_cliente)
+    datos_cliente = cursor_datos_cliente.fetchone()
+    cursor_datos_cliente.close()
+
+    html = render_template('remision-pdf.html',
+                           remision=remision,
+                           datos_cliente=datos_cliente,
+                           items_remision=items_remision,
+                           name=current_user.username)
+
+    return render_pdf(HTML(string=html))
+

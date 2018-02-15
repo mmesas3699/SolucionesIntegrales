@@ -23,7 +23,7 @@
 	            {% for item in form %}
 	    	    <tr>
 	            {{ form.csrf_token }}
-				  <td><a href="dashboard/remisiones/{{ item['num_remision'] }}">  {{ item['num_remision'] }}  </a></td>
+				  <td><a href="/dashboard/remisiones/pdf/{{ item['num_remision'] }}">  {{ item['num_remision'] }}  </a></td>
 			      <td> {{ item['nombre_cliente']}} </td>
 				  <td> {{ item['fecha_remision'] }} </td>
 				  <td> {{ item['val_total'] }} </td>        			
