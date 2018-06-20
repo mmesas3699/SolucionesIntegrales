@@ -6,6 +6,7 @@ Home-page: https://github.com/fmoo/python-editor
 Author: Peter Ruibal
 Author-email: ruibalp@gmail.com
 License: Apache
+Description-Content-Type: UNKNOWN
 Keywords: editor library vim emacs
 Platform: UNKNOWN
 Classifier: Development Status :: 5 - Production/Stable

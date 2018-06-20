@@ -5,6 +5,11 @@ from flask_login import UserMixin
 
 from app import db, login_manager
 
+"""
+Para hacer las migraciones:
+>>> from app import db
+>>> db.create_all()
+"""
 
 class Comentario(db.Model):
     """
@@ -33,7 +38,9 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(20), unique=True)
     password = db.Column(db.String(256), unique=True)
 
-    # me = User(username='user', password=generate_password_hash('password')
+    # from werkzeug.security import generate_password_hash
+    # from app.models import User
+    # me = User(username='user', password=generate_password_hash('password'))
     # db.session.add(me)
     # db.session.commit()
 
@@ -49,27 +56,25 @@ class ParametrosFactura(db.Model):
 
     num_fac_ini = db.Column(db.Integer,)
     num_fac_fin = db.Column(db.Integer)
-    num_resolucion = db.Column(db.Integer,
-                               primary_key=True,
-                               autoincrement=False)
+    num_resolucion = db.Column(
+        db.String(30), primary_key=True)
     fecha_resolucion = db.Column(db.DateTime)
     fecha_venc_resolucion = db.Column(db.DateTime)
 
     def __repr__(self):
-        return '<ParametrosFactura: {} {} {}'.format(self.num_fac_ini,
-                                                     self.num_fac_fin,
-                                                     self.num_resolucion)
+        return '<ParametrosFactura: {} {} {}'.format(
+            self.num_fac_ini, self.num_fac_fin, self.num_resolucion)
 
 
 class Factura(db.Model):
 
     __tablename__ = 'Factura'
 
-    num_factura = db.Column(db.Integer,
+    num_factura = db.Column(db.BigInteger,
                             primary_key=True,
                             autoincrement=False)
     fecha_factura = db.Column(db.DateTime)
-    identificacion_cliente = db.Column(db.Integer)
+    identificacion_cliente = db.Column(db.String(10))
     sub_total = db.Column(db.Integer)
     val_iva = db.Column(db.Integer)
     val_total = db.Column(db.Integer)
@@ -97,9 +102,7 @@ class Cliente(db.Model):
 
     __tablename__ = 'Cliente'
 
-    identificacion_cliente = db.Column(db.Integer,
-                                       primary_key=True,
-                                       autoincrement=False)
+    identificacion_cliente = db.Column(db.String(10), primary_key=True)
     nombre_cliente = db.Column(db.String(70))
     direccion = db.Column(db.String(70))
     ciudad = db.Column(db.String(50))
@@ -114,7 +117,7 @@ class Remision(db.Model):
                             primary_key=True,
                             autoincrement=False)
     fecha_remision = db.Column(db.DateTime)
-    identificacion_cliente = db.Column(db.Integer)
+    identificacion_cliente = db.Column(db.BigInteger)
     sub_total = db.Column(db.Integer)
     val_iva = db.Column(db.Integer)
     val_total = db.Column(db.Integer)
