@@ -10,12 +10,12 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-// Añade una nueva fila
+// Añade una nueva fila a los items de la factura
 function addrow()
 {
 
 	$('tbody').append('<tr class="fila">'+
-						'<td id="tr-descripcion"><input type="text" class="form-control input-sm"></td>'+
+						'<td id="tr-descripcion"><input type="text" class="form-control input-sm" maxlength="99"></td>'+
 						'<td id="tr-valUnitario"><input type="text" class="valores unitario form-control input-sm"></td>'+
 						'<td id="tr-cantidad"><input type="text" class="valores cantidad form-control input-sm"></td>'+
 						'<td id="tr-porcIva"><input type="text"class="valores procIva form-control input-sm"></td>'+
