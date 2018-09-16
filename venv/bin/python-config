@@ -1,4 +1,4 @@
-#!/home/mmesas/Documentos/Proyectos/SolucionesIntegrales/venv/bin/python
+#!/home/mmesas/Documentos/proyectos/soluciones_integrales/venv/bin/python
 
 import sys
 import getopt
