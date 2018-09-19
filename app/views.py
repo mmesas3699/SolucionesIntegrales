@@ -1,21 +1,23 @@
 # -*- coding: utf-8 -*-
+"""Se definen las vistas de la aplicación."""
 
-from flask import render_template, redirect, url_for, request, jsonify
-from flask import make_response
 from flask_mail import Message
 from werkzeug.security import check_password_hash  # generate_password_hash,
 from flask_login import login_user, login_required, logout_user, current_user
 from flask_weasyprint import HTML, render_pdf
 
+# from flask import make_response
+from flask import render_template, redirect, url_for, request, jsonify
+
 from app import app, db, mail, connectiondb
-from .models import Comentario, User
 from .forms import CommentForm, LoginForm, FormParametrosFactura
+from .models import Comentario, User
 
 
 # ............ Controladores .................
 
 def generar_numero_factura():
-    """ Genera los números de factura """
+    """Genera los números de factura"""
     cursor_fac = connectiondb.cursor()
     cursor_param = connectiondb.cursor()
     sql_select_fac = """SELECT num_factura
@@ -148,7 +150,7 @@ def guarda_items_factura(num_fac, consecutivo, ref, valUnit, cant, porIva,
 # ---------------- Remisiones
 
 def sql_guarda_remision(num_rem, fec_rem, iden_cliente,
-                        subtotal, val_iva, val_total):
+                        subtotal, val_iva, val_total, observaciones):
 
     cursor_remision = connectiondb.cursor()
 
@@ -157,14 +159,16 @@ def sql_guarda_remision(num_rem, fec_rem, iden_cliente,
                                              identificacion_cliente,
                                              sub_total,
                                              val_iva,
-                                             val_total)
+                                             val_total,
+                                             observaciones)
                         VAlUES ('{}','{}','{}',
-                                '{}','{}','{}');""".format(num_rem,
+                                '{}','{}','{}','{}');""".format(num_rem,
                                                            fec_rem,
                                                            iden_cliente,
                                                            subtotal,
                                                            val_iva,
-                                                           val_total)
+                                                           val_total,
+                                                           observaciones)
 
     try:
         cursor_remision.execute(sql_guarda_rem)
@@ -179,7 +183,6 @@ def sql_guarda_remision(num_rem, fec_rem, iden_cliente,
 
 def guarda_items_remision(num_rem, consecutivo, ref, valUnit, cant, porIva,
                           valIva, totItem):
-
     sql_guarda_items = """INSERT INTO ItemsRemision(num_remision,
                                                     consecutivo,
                                                     referencia,
@@ -620,7 +623,7 @@ def pdf(num_factura):
 @app.route('/remision', methods=['GET', 'POST'])
 @login_required
 def nueva_remision():
-    """ Captura datos de una nueva factura """
+    """ Captura datos de una nueva remision """
 
     return render_template('remision.html',
                            name=current_user.username)
@@ -631,8 +634,8 @@ def nueva_remision():
 def guarda_remision():
     data = request.json
 
-    sql_num_rem = """ SELECT num_remision FROM Remision ORDER BY num_remision
-                      DESC LIMIT 1;"""
+    sql_num_rem = """SELECT num_remision FROM Remision ORDER BY num_remision
+                     DESC LIMIT 1;"""
 
     cursor_num_rem = connectiondb.cursor()
     cursor_num_rem.execute(sql_num_rem)
@@ -654,9 +657,10 @@ def guarda_remision():
     iva = int(data['iva'].replace(',', ''))
     total = int(data['total'].replace(',', ''))
     items = data['items']
+    observaciones = data['condiciones']
 
     sql_guarda_remision(rem, fecha, iden_cliente,
-                        subtotal, iva, total)
+                        subtotal, iva, total, observaciones)
 
     sql_guarda_cliente(iden_cliente, cliente, direccion,
                        ciudad, telefono)
@@ -720,7 +724,8 @@ def remision(num_remision):
     remision['val_total'] = format(remision['val_total'], ",d")
 
     cursor_items_remision = connectiondb.cursor()
-    sql_items_remision = """SELECT cantidad_item, referencia, val_unitario,
+    sql_items_remision = """SELECT consecutivo, cantidad_item, 
+                                  referencia, val_unitario,
                                   valor_item
                            FROM ItemsRemision
                            WHERE num_remision = '%s'""" % num_remision

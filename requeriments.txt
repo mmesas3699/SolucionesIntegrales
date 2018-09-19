@@ -8,7 +8,6 @@ cffi==1.11.4
 chardet==2.3.0
 click==6.7
 contextlib2==0.5.5
-cryptography==1.2.3
 cssselect2==0.2.1
 dominate==2.3.1
 duplicity==0.7.14

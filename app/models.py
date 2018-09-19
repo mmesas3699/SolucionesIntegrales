@@ -113,15 +113,16 @@ class Remision(db.Model):
 
     __tablename__ = 'Remision'
 
-    num_remision = db.Column(db.Integer,
-                            primary_key=True,
-                            autoincrement=False)
+    num_remision = db.Column(
+        db.Integer,
+        primary_key=True,
+        autoincrement=False)
     fecha_remision = db.Column(db.DateTime)
     identificacion_cliente = db.Column(db.BigInteger)
     sub_total = db.Column(db.Integer)
     val_iva = db.Column(db.Integer)
     val_total = db.Column(db.Integer)
-
+    observaciones = db.Column(db.Text(3000))
 
 class ItemsRemision(db.Model):
 

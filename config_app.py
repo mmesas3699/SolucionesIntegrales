@@ -3,7 +3,7 @@
 WTF_CSRF_ENABLE = True
 SECRET_KEY = 'añsldkfjgh12/(#$idkldksi38475'
 
-SQLALCHEMY_DATABASE_URI = 'mysql://root:root@localhost/soluciones_db'
+SQLALCHEMY_DATABASE_URI = 'mysql://sa_soluciones:soluciones2018@localhost/soluciones_db'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 

@@ -9,55 +9,71 @@
 {% endblock %}
 
 {% block content %}
-    
-    <h4>Nueva Remision</h4>
-    <hr>
-    <br>
-    <div id="successAlert" class="alert alert-success" role="alert" style="display: none;"></div>  
-    <div id="guardar">
+
+<div class="container-fluid" style="padding-bottom: 20px;">
+  <!-- Titulos y Alertas -->
+  <div class="row">
+    <div class="col">
+      <h4>Nueva Remision</h4>
+      <hr>
+      <div id="successAlert" class="alert alert-success" role="alert" style="display: none;"></div>  
+    </div>
+  </div>
+
+  <!-- Botón Guardar -->
+  <div class="row">
+    <div id="div-guardar" class="col">
       <button id="guarda-remision" class="btn btn-primary">Guardar</button>
     </div>
-    <br>
-    <br>
-    <div class="container-fluid">
-        <form>
-          <div class="input-group">
-            <span class="input-group-addon">Cliente</span>
-            <input type="text" id="cliente" class="form-control">
-          </div>
-        </form>
-        <form>
-            <div class="input-group">
-              <span class="input-group-addon">No. Identificación</span>
-              <input type="text" id="identificacion" class="form-control">
-            </div>
-        </form>
-        <form>
-            <div name="direccion" class="input-group">
-              <span class="input-group-addon">Dirección</span>
-              <input id="direccion" class="form-control">
-            </div>
-        </form>
-        <form>
-            <div name="ciudad" class="input-group">
-              <span class="input-group-addon">Ciudad</span>
-              <input id="ciudad" class="form-control">
-            </div>
-        </form>
-        <form>
-            <div name="telefono" class="input-group">
-              <span class="input-group-addon">Teléfono</span>
-              <input id="telefono" class="form-control">
-            </div>
-        </form>
-        <form>
-            <div name="fecha" class="input-group">
-              <span class="input-group-addon">Fecha</span>
-              <input id="fecha" class="form-control" placeholder="Formato AAAA-MM-DD">
-            </div>
-        </form>
-      </div>
+  </div>
+
+  <!-- Datos Básicos Cliente -->
+  <div class="row" style="margin-top: 10px; padding: 0px 10px 0px 10px;">
+    <div class="col">
+      <form>
+        <div class="input-group">
+          <span class="input-group-addon">Cliente</span>
+          <input type="text" id="cliente" class="form-control">
+        </div>
+      </form>
+      <form>
+        <div class="input-group">
+          <span class="input-group-addon">No. Identificación</span>
+          <input type="text" id="identificacion" class="form-control">
+        </div>
+      </form>
+      <form>
+        <div name="direccion" class="input-group">
+          <span class="input-group-addon">Dirección</span>
+          <input id="direccion" class="form-control">
+        </div>
+      </form>
+      <form>
+        <div name="ciudad" class="input-group">
+          <span class="input-group-addon">Ciudad</span>
+          <input id="ciudad" class="form-control">
+        </div>
+      </form>
+      <form>
+        <div name="telefono" class="input-group">
+          <span class="input-group-addon">Teléfono</span>
+          <input id="telefono" class="form-control">
+        </div>
+      </form>
+      <form>
+        <div name="fecha" class="input-group">
+          <span class="input-group-addon">Fecha</span>
+          <input id="fecha" class="form-control" placeholder="Formato AAAA-MM-DD">
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Captura de los items de la Remisión -->
+  <div class="row">
+    <div class="col">
       <div class="table-responsive">
+        <p style="font-size: 16px;"><b>Items:</b></p>
         <table id="tabla-remision" class="table table-condensed table-sm display" style="width:100%">
           <thead>
             <tr>
@@ -81,15 +97,35 @@
           </tbody>
         </table>  
       </div>
-      <div class="col-sm-2">
-        <button id="add-row" class="btn btn-primary" onclick="addrow()">Agregar</button><br>
-        <button id="remove-row" class="btn btn-warning" onclick="removerow()">Eliminar</button>
-      </div>
-      <div id="totales" class="col-sm-4 well">
-        <p class="totales"><b>Subtotal: </b></p><p id="sumSubtotal" class="totales valores-totales"></p><br>
-        <p class="totales"><b>IVA: </b></p><p id="sumTotalIva" class="totales valores-totales"></p><br>
-        <p class="totales"><b>Total: </b></p><p id="sumTotal" class="totales valores-totales"></p>
-      </div>  
     </div>
-  
+  </div>
+
+  <div class="row">
+    <!-- Botones -->
+    <div class="col-xs-6">
+      <button id="add-row" class="btn btn-primary" onclick="addrow()">Agregar</button><br>
+      <button id="remove-row" class="btn btn-warning" onclick="removerow()">Eliminar</button>
+    </div>
+
+    <!-- Totales -->
+    <div class="col-xs-6">
+      <p class="totales"><b>Subtotal: </b></p><p id="sumSubtotal" class="totales valores-totales"></p>
+      <br>
+      <p class="totales"><b>IVA: </b></p><p id="sumTotalIva" class="totales valores-totales"></p>
+      <br>
+      <p class="totales"><b>Total: </b></p><p id="sumTotal" class="totales valores-totales"></p>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: 5px;">
+    <div class="col">
+      <div class="input-group">
+        <p style="font-size: 16px;"><b>Condiciones Comerciales:</b></p>
+        <textarea name="condiciones" id="condiciones" class="form-control" maxlength="2999" cols="100" rows="7"></textarea>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 {% endblock %}

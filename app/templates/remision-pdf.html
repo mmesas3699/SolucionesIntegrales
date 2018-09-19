@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title> Cotización {{ remision['num_remision'] }} </title>
+	<title>Remisión: {{ remision['num_remision'] }} </title>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -64,14 +64,14 @@
     <div id="encabezado">
 	  <h5 id="AlmacenDeportivo">ALMACEN DEPORTIVO</h5>
 	  <h5>NIT: 3151582-3 REG.COMUN </h5>
-	  <p style="font-size: 12px;">Sudaderas - Uniformes - Zapato deportivo - Baloneria - Trofeos y demás accesorios - Empresas - Colegios e Instituciones deportivas. <br>
-	     Urbanización 10 de Febrero Manzana 1 Casa 8, San Antonio del Tequendama0 <br> 
-	     Tel: 310 488 4408 Email: icbcagua@hotmail.com </p> 	
+	  <p style="font-size: 12px;">Implementación deportiva. Apoyo logístico a entidades públicas y privadas en: Construcción, montaje y adecuación de todo tipo de escenarios deportivos.<br>
+	  Calle 2 A # 4 99 Santandercito - Cundinamarca.<br> 
+	  Tel: 310 488 4408 - 317 693 7840 / Email: icbcagua@hotmail.com </p> 	
 	</div>
   <!-- Fin encabezado -->
 
   <!-- Datos factura -->
-  	<div>
+  <div>
 	  <div class="column">
 	  	<table>
 	  		<tr>
@@ -111,20 +111,22 @@
 	<div>
 		<table style="width: 100%; border-collapse: collapse; border: solid 1px;">
 			<thead>
-				<th class="items-th">CANTIDAD</th>
+				<th class="items-th">ITEM</th>
 				<th class="items-th">REFERENCIA</th>
+				<th class="items-th">CANTIDAD</th>
 				<th class="items-th">VALOR UNITARIO</th>
 				<th class="items-th">VALOR TOTAL</th>
 			</thead>
 			<tbody>
 			  {% for item in items_remision %}
-	            <tr>
-	              <td class="items-td"> {{ item['cantidad_item'] }} </td>
+	        <tr>
+	        	<td class="items-td">{{ item['consecutivo'] }} </td>
 			      <td class="items-td"> {{ item['referencia'] }} </td>
-				  <td class="items-td"> {{ item['val_unitario'] }} </td>
-				  <td class="items-td"> {{ item['valor_item'] }} </td>	
-	            </tr>
-		      {% endfor %}				
+	        	<td class="items-td"> {{ item['cantidad_item'] }} </td>
+				  	<td class="items-td"> {{ item['val_unitario'] }} </td>
+				  	<td class="items-td"> {{ item['valor_item'] }} </td>	
+	        </tr>
+		    {% endfor %}				
 			</tbody>
 		</table>
 	</div>
@@ -150,9 +152,17 @@
   	  	</table>
 	  </div>
 	</div>
-
 <!-- Fin valores totales --> 
+
+	<div class="container-fluid">
+		<div class="row">
+			<label></label>
+		</div>
+	</div>
     
+  <div class="container-fluid">
+  	firmas
+  </div>
 <!-- Fin contenedor -->
 </body>
 </html>

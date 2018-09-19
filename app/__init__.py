@@ -8,11 +8,11 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 import MySQLdb
 import MySQLdb.cursors
-# import sys
+import sys
 
 
-# reload(sys)
-# sys.setdefaultencoding('utf-8')
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 app = Flask(__name__)
 app.config.from_object('config_app')
@@ -21,8 +21,8 @@ db = SQLAlchemy(app)
 
 # conexion a la base de datos con MySQLdb
 connectiondb = MySQLdb.connect(host='localhost',
-                               user='root',
-                               passwd='root',
+                               user='sa_soluciones',
+                               passwd='soluciones2018',
                                db='soluciones_db',
                                cursorclass=MySQLdb.cursors.DictCursor,
                                use_unicode=True,

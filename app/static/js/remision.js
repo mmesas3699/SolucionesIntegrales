@@ -103,7 +103,7 @@ $(document).on('change', function()
 $(document).ready(function()
 {
 
-	$('#guardar').click(function(event)
+	$('#guarda-remision').click(function(event)
 	{
 		
 		var fila = $('.fila').toArray();
@@ -145,7 +145,7 @@ $(document).ready(function()
 
 
 
-		function DatosRemision(numremision, cliente, identificacion, direccion, ciudad, telefono, fecha, items, subtotal, iva, total){
+		function DatosRemision(numremision, cliente, identificacion, direccion, ciudad, telefono, fecha, items, subtotal, iva, total, condiciones){
 			this.numremision = numremision;
 			this.cliente = cliente;
 			this.identificacion = identificacion
@@ -157,6 +157,7 @@ $(document).ready(function()
 			this.subtotal = subtotal;
 			this.iva = iva;
 			this.total = total;
+			this.condiciones = condiciones
 		};
 
 	
@@ -173,6 +174,7 @@ $(document).ready(function()
 							$('#sumSubtotal').text(),
 							$('#sumTotalIva').text(),
 							$('#sumTotal').text(),
+							$('#condiciones').val(),
 							)
 		
 		console.log(data);

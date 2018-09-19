@@ -1,12 +1,4 @@
 
-tbody tr.selected { 
-	background-color: #f0f0f0;
-}
-
-th {
-	text-align: center;
-}
-
 #totales{
 	padding-top: 10px;
 	margin-right: 15px;
@@ -16,10 +8,10 @@ th {
     border-radius: 8px;
 }
 
-#guardar{
-	position: absolute;
-    right: 20px;
-    margin-bottom: 20px;
+#div-guardar{
+	display: flex;
+	justify-content: flex-end;
+	padding-left: 13px;
 }
 
 #label-num-remision{
@@ -61,7 +53,15 @@ th {
 }
 
 .table-responsive{
-	margin-top: 30px;
+	margin-top: 15px;
+}
+
+tbody tr.selected { 
+	background-color: #f0f0f0;
+}
+
+th {
+	text-align: center;
 }
 
 form{
