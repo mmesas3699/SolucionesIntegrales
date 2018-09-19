@@ -76,7 +76,7 @@
 	  	<table>
 	  		<tr>
 	  			<th>Señor(es):</th>
-	  			<td> {{ datos_cliente['nombre_cliente'] }}</td>
+	  			<td> {{ datos_cliente['nombre_cliente'] }} </td>
 	  		</tr>
 	  		<tr>
 	  			<th>Dirección:</th>
@@ -108,7 +108,7 @@
   <!-- Fin Datos factura -->
 
 <!-- Items factura -->
-	<div>
+	<div class="table-responsive">
 		<table style="width: 100%; border-collapse: collapse; border: solid 1px;">
 			<thead>
 				<th class="items-th">ITEM</th>
@@ -156,13 +156,28 @@
 
 	<div class="container-fluid">
 		<div class="row">
-			<label></label>
+			<h5><b>Condiciones Comerciales:</b></h5>
+			<div class="col" style="border: 0.5px solid grey; border-radius: 5px; padding: 5px 8px 5px 8px;">
+				<p style="font-size: 14px;">{{ remision['observaciones'] }}</p>
+			</div>
+		</div>
+
+		<div class="row" style="margin-top: 80px;">
+			<div class="col-xs-6">
+				<hr style="border-color: black; width: 80%; margin: 0.5em 0em 0.5em 0em;">
+				<p>{{ datos_cliente['nombre_cliente'] }} </p>
+				<p>CC {{ datos_cliente['identificacion_cliente'] }} </p>
+				<p>Tel: {{ datos_cliente['telefono'] }}</p>
+			</div>
+			<div class="col-xs-6">
+				<hr style="border-color: black; width: 80%; margin: 0.5em 0em 0.5em 0em;">
+				<p>Ignacio Cagua Beltrán</p>
+				<p>CC 3151582</p>
+				<p>Tel: 310 488 4408 - 317 693 7840</p>
+			</div>
 		</div>
 	</div>
-    
-  <div class="container-fluid">
-  	firmas
-  </div>
+
 <!-- Fin contenedor -->
 </body>
 </html>
