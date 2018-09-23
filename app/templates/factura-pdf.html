@@ -62,17 +62,16 @@
     
   <!-- Encabezado -->
     <div id="encabezado">
-	  <h5 id="AlmacenDeportivo">ALMACEN DEPORTIVO</h5>
 	  <h5>NIT: 3151582-3 REG.COMUN </h5>
 	  <p style="font-size: 12px;">Resolución {{ parametros['num_resolucion'] }} Fecha {{ parametros['fecha_resolucion'].strftime('%Y-%m-%d') }} Numeración autorizada {{ param_num_fac_ini }} al {{ parametros['num_fac_fin'] }}<br>
-	  Implementación deportiva. Apoyo logístico a entidades públicas y privadas en: Construcción, montaje y adecuación de todo tipo de escenarios deportivos.<br>
+	  Implementación deportiva. Apoyo logístico a entidades públicas y privadas, Construcción, montaje y adecuación de todo tipo de escenarios deportivos.<br>
 	  Calle 2 A # 4 99 Santandercito - Cundinamarca.<br> 
 	  Tel: 310 488 4408 - 317 693 7840 / Email: icbcagua@hotmail.com</p>
 	</div>
   <!-- Fin encabezado -->
 
   <!-- Datos factura -->
-  	<div>
+  <div>
 	  <div class="column">
 	  	<table>
 	  		<tr>
@@ -154,13 +153,26 @@
 
 <!-- Fin valores totales --> 
     
-    <!-- Firmas -->
-    <br>
-    <p style="border: 2px solid black; border-radius: 5px; padding: 5px 0px 70px 5px;">FIRMA Y SELLO DEL CLIENTE</p>
-    <!-- Fin firmas -->
-    <br>
-    <br>
-    <div>
+  <!-- Firmas -->
+  <div class="row" style="margin-top: 80px;">
+		<div class="col-xs-6">
+			<hr style="border-color: black; width: 80%; margin: 0.5em 0em 0.5em 0em;">
+			<p>{{ datos_cliente['nombre_cliente'] }} </p>
+			<p>CC {{ datos_cliente['identificacion_cliente'] }} </p>
+			<p>Tel: {{ datos_cliente['telefono'] }}</p>
+		</div>
+		<div class="col-xs-6">
+			<hr style="border-color: black; width: 80%; margin: 0.5em 0em 0.5em 0em;">
+			<p>Ignacio Cagua Beltrán</p>
+			<p>CC 3151582</p>
+			<p>Tel: 310 488 4408 - 317 693 7840</p>
+		</div>
+	</div>
+
+  <br>
+  <br>
+  <br>
+  <div>
 	  <p style="font-size: 10px;">ESTA FACTURA ES IGUAL EN TODOS SUS EFECTOS A LA LETRA DE CAMBIO SEGUN ART. 774 DEL CODIGO DEL COMERCIO</p>
 	</div>
 <!-- Fin contenedor -->
