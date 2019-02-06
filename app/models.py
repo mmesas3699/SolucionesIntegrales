@@ -60,6 +60,8 @@ class ParametrosFactura(db.Model):
         db.String(30), primary_key=True)
     fecha_resolucion = db.Column(db.DateTime)
     fecha_venc_resolucion = db.Column(db.DateTime)
+    # Para digitar el número de factura en la cual debe iniciar la facturación.
+    factura_actual = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         return '<ParametrosFactura: {} {} {}'.format(

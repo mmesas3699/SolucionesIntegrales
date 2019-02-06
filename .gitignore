@@ -1,4 +1,4 @@
 config_app.py
 .vscode/
-venv/
+/venv/
 *.pyc

@@ -28,6 +28,10 @@
               <p> Fecha vencimiento resolución</small></p>
               <p>{{ parametros[0]['fecha_venc_resolucion'].strftime('%Y-%m-%d') }}<p>
             </div>
+            <div class='form-group'>
+              <p>Número factura inicial:</p>
+              <p>{{ parametros[0]['factura_actual'] }}</p>
+            </div>
             <div class="form-group">
               <a href="{{ url_for('actualiza_parametros')}}">Actualizar Parametros</a>
             </div>           

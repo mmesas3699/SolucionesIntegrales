@@ -34,14 +34,16 @@ class LoginForm(FlaskForm):
 class FormParametrosFactura(FlaskForm):
     """ Formulario para los Parametros de la factura """
 
-    num_fac_ini = IntegerField('Numero de consecutivo inicial',
-                               validators=[InputRequired()])
-    num_fac_fin = IntegerField('Numero de consecutivo final',
-                               validators=[InputRequired()])
-    num_resolucion = IntegerField('Resolucion DIAN',
-                                  validators=[InputRequired()])
-    fecha_resolucion = DateField('Fecha resolucion',
-                                 validators=[InputRequired()])
-    fecha_venc_resolucion = DateField('Fecha vencimiento resolucion',
-                                      validators=[InputRequired()])
+    num_fac_ini = IntegerField(
+        'Numero de consecutivo inicial', validators=[InputRequired()])
+    num_fac_fin = IntegerField(
+        'Numero de consecutivo final', validators=[InputRequired()])
+    num_resolucion = IntegerField(
+        'Resolucion DIAN', validators=[InputRequired()])
+    fecha_resolucion = DateField(
+        'Fecha resolucion', validators=[InputRequired()])
+    fecha_venc_resolucion = DateField(
+        'Fecha vencimiento resolucion', validators=[InputRequired()])
+    factura_actual = IntegerField(
+        'Digite el número de factura que sigue en su consecutivo')
     submit = SubmitField('Guardar')

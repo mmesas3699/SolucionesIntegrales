@@ -23,7 +23,7 @@ def generar_numero_factura():
     sql_select_fac = """SELECT num_factura
                         FROM Factura
                         ORDER BY num_factura DESC LIMIT 1;"""
-    sql_select_param = """SELECT num_fac_ini, num_fac_fin
+    sql_select_param = """SELECT num_fac_ini, num_fac_fin, factura_actual
                           FROM ParametrosFactura;"""
 
     cursor_fac.execute(sql_select_fac)
@@ -33,9 +33,13 @@ def generar_numero_factura():
     resultado_param = cursor_param.fetchall()
     cursor_param.close()
 
+    print(resultado_param)
     if len(resultado_fac) == 0:
         if len(resultado_param) == 0:
             return "Falta capturar los consecutivos de las facturas"
+        elif resultado_param[0]['factura_actual']:
+            numero_factura = resultado_param[0]['factura_actual']
+            return str(numero_factura)
         else:
             numero_factura = resultado_param[0]['num_fac_ini']
             return str(numero_factura)
@@ -44,8 +48,6 @@ def generar_numero_factura():
     else:
         numero_factura = resultado_fac[0]['num_factura'] + 1
         return str(numero_factura)
-
-    connectiondb.close()
 
 
 def sql_guarda_factura(n_factura, fec_factura, iden_cliente,
@@ -348,8 +350,9 @@ def consulta_parametros():
 @app.route('/procesa_parametros_factura', methods=['POST'])
 @login_required
 def procesa_parametros_factura():
-    """ Procesa el formulario parametros factura """
+    """Guarda o actualiza los parametros de las factutas."""
     form = FormParametrosFactura()
+    print(form.num_fac_ini.data, form.factura_actual.data)
 
     if request.method == 'POST' and form.validate_on_submit():
         cursor_insert = connectiondb.cursor()
@@ -362,16 +365,13 @@ def procesa_parametros_factura():
         cursor_select.close()
 
         if resultado is None:
-            sql_insert = """INSERT INTO ParametrosFactura (num_fac_ini, num_fac_fin, \
-                            num_resolucion, fecha_resolucion,
-                            fecha_venc_resolucion) \
-                            VALUES ('{}', '{}', '{}', '{}', '{}');
-                            """.format(form.num_fac_ini.data,
-                                       form.num_fac_fin.data,
-                                       form.num_resolucion.data,
-                                       form.fecha_resolucion.data,
-                                       form.fecha_venc_resolucion.data)
-
+            sql_insert = """INSERT INTO ParametrosFactura (num_fac_ini, \
+                num_fac_fin, num_resolucion, fecha_resolucion, \
+                fecha_venc_resolucion, factura_actual) VALUES \
+                ('{}', '{}', '{}', '{}', '{}', '{}');
+                """.format(form.num_fac_ini.data, form.num_fac_fin.data,
+                           form.num_resolucion.data, form.fecha_resolucion.data,
+                           form.fecha_venc_resolucion.data, form.factura_actual.data)
             cursor_insert.execute(sql_insert)
             connectiondb.commit()
             cursor_insert.close()
@@ -383,13 +383,15 @@ def procesa_parametros_factura():
                                 num_fac_fin = '{}', \
                                 num_resolucion = '{}', \
                                 fecha_resolucion = '{}',
-                                fecha_venc_resolucion = '{}' \
+                                fecha_venc_resolucion = '{}', \
+                                factura_actual = '{}' \
                             WHERE num_fac_ini = '{}';
                             """.format(form.num_fac_ini.data,
                                        form.num_fac_fin.data,
                                        form.num_resolucion.data,
                                        form.fecha_resolucion.data,
                                        form.fecha_venc_resolucion.data,
+                                       form.factura_actual.data,
                                        int(resultado['num_fac_ini']))
 
             cursor_update.execute(sql_update)
