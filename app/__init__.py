@@ -6,12 +6,12 @@ from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_migrate import Migrate
-import MySQLdb
-import MySQLdb.cursors
+import MySQLdb  # 2019-02-06 mmesas
+import MySQLdb.cursors  # 2019-02-06 mmesas
 import sys
 
 
-reload(sys)
+reload(sys)  # 2019-02-06 mmesas
 sys.setdefaultencoding('utf-8')
 
 app = Flask(__name__)
@@ -20,6 +20,7 @@ app.config.from_object('config_app')
 db = SQLAlchemy(app)
 
 # conexion a la base de datos con MySQLdb
+
 connectiondb = MySQLdb.connect(host='localhost',
                                user='sa_soluciones',
                                passwd='soluciones2018',
@@ -27,6 +28,7 @@ connectiondb = MySQLdb.connect(host='localhost',
                                cursorclass=MySQLdb.cursors.DictCursor,
                                use_unicode=True,
                                charset='utf8')
+
 
 Bootstrap(app)
 login_manager = LoginManager()

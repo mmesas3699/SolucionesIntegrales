@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Se definen las vistas de la aplicación."""
+"""Se definen las vistas de la aplicacion."""
 
 from flask_mail import Message
 from werkzeug.security import check_password_hash  # generate_password_hash,

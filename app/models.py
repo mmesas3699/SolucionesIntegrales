@@ -36,7 +36,7 @@ class User(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True)
-    password = db.Column(db.String(256), unique=True)
+    password = db.Column(db.String(256), unique=False)
 
     # from werkzeug.security import generate_password_hash
     # from app.models import User
@@ -136,7 +136,7 @@ class ItemsRemision(db.Model):
     consecutivo = db.Column(db.Integer,
                             primary_key=True,
                             autoincrement=False)
-    referencia = db.Column(db.String(250))
+    referencia = db.Column(db.String(2000))
     val_unitario = db.Column(db.Integer)
     cantidad_item = db.Column(db.Integer)
     porcentaje_iva = db.Column(db.Float)
