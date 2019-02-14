@@ -92,7 +92,7 @@ class ItemsFactura(db.Model):
     consecutivo = db.Column(db.Integer,
                             primary_key=True,
                             autoincrement=False)
-    referencia = db.Column(db.String(250))
+    referencia = db.Column(db.String(3000))
     val_unitario = db.Column(db.Integer)
     cantidad_item = db.Column(db.Integer)
     porcentaje_iva = db.Column(db.Float)
