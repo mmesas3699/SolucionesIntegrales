@@ -1,182 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Remisión: {{ remision['num_remision'] }} </title>
+	<title>Remisión: {{ remision['num_remision'] }}</title>
 	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style>
-      @page {
-    	size: a4 portrait;
-    	margin: 10mm 10mm 10mm 10mm;
-    	counter-increment: page;
-    	@bottom-center {
-        	content: '(c) Soluciones Integrales Ignacio Cagua Beltran - Página ' counter(page);
-        	white-space: pre;
-        	color: grey;
-	    	}
-	  }
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-      img {
-        display: block;
-    	margin-left: auto;
-    	margin-right: auto;
-    	width: 35%;
-      }
+	<style>
+		@page {
+			size: a4;
+			margin: 5mm 7mm 5mm 7mm;
+		}
 
-      #encabezado {
-      	margin: auto;
-    	width: 80%;
-    	padding: 5px;
-    	text-align: center;
-      }
-
-      .column {
-      	float: left;
-    	width: 50%;
-    	padding: 15px;
-      }
-
-      .items-th {
-      	text-align: center;
-      	border-collapse: collapse;
-      	border: 1px solid grey;
-      	padding: 7px 0px 7px 0px;
-      }
-
-      .items-td {
-      	border-collapse: collapse;
-      	border: solid 1px grey;
-      	padding-left: 5px;
-      }
-
-    </style>
-<head>
-<body style="background-color: white;">
-    
-  <!-- Logo -->
-    <div id="logo">
-	  <img src="/static/img/logo-light.png" alt="Logo">
-	</div>
-  <!-- Fin Logo -->
-    
-  <!-- Encabezado -->
-    <div id="encabezado">
-	  <h5>NIT: 3151582-3 REG.COMUN </h5>
-	  <p style="font-size: 12px;">Apoyo logístico a entidades públicas y privadas, construcción, montaje y adecuación de todo tipo de escenarios deportivos.<br>
-	  Calle 2 A # 4 99 Santandercito - Cundinamarca.<br> 
-	  Tel: 310 488 4408 - 317 693 7840 / Email: icbcagua@hotmail.com </p> 	
-	</div>
-  <!-- Fin encabezado -->
-
-  <!-- Datos factura -->
-  <div>
-	  <div class="column">
-	  	<table>
-	  		<tr>
-	  			<th>Señor(es): </th>
-	  			<td>{{ datos_cliente['nombre_cliente'] }} </td>
-	  		</tr>
-	  		<tr>
-	  			<th>Dirección:</th>
-	  			<td>{{ datos_cliente['direccion'] }}</td>
-	  		</tr>
-	  		<tr>
-	  			<th>Ciudad:</th>
-	  			<td>{{ datos_cliente['ciudad'] }}</td>
-	  		</tr>
-	  		<tr>
-	  			<th>Telefono:</th>
-	  			<td>{{ datos_cliente['telefono'] }}</td>
-	  		</tr>
-	  	</table>
-	  </div>
-	  <div class="column">
-	  	<table>
-	  		<tr>
-	  			<th>Remisión No.:</th>
-	  			<td style="padding-left: 15px;">{{ remision['num_remision'] }}</td>
-	  		</tr>
-	  		<tr>
-	  			<th>Fecha:</th>
-	  			<td>{{ remision['fecha_remision'].strftime('%Y-%m-%d') }}</td>
-	  		</tr>
-	  	</table>
-	  </div>  
-	</div>
-  <!-- Fin Datos factura -->
-
-<!-- Items factura -->
-	<div class="table-responsive">
-		<table style="width: 100%; border-collapse: collapse; border: solid 1px;">
-			<thead>
-				<th class="items-th">ITEM</th>
-				<th class="items-th">REFERENCIA</th>
-				<th class="items-th">CANTIDAD</th>
-				<th class="items-th">VALOR UNITARIO</th>
-				<th class="items-th">VALOR TOTAL</th>
-			</thead>
-			<tbody>
-			  {% for item in items_remision %}
-	        <tr>
-	        	<td class="items-td">{{ item['consecutivo'] }} </td>
-			      <td class="items-td"> {{ item['referencia'] }} </td>
-	        	<td class="items-td"> {{ item['cantidad_item'] }} </td>
-				  	<td class="items-td"> {{ item['val_unitario'] }} </td>
-				  	<td class="items-td"> {{ item['valor_item'] }} </td>	
-	        </tr>
-		    {% endfor %}				
-			</tbody>
-		</table>
-	</div>
-<!-- Fin items factura -->
-
-<!-- Valores totales factura -->
-	<div class="container-fluid">
-	  <div class="column"></div>
-	  <div class="column">
-	  	<table style="width: 100%;">
-	  	  <tr>
-		    <th>SUB TOTAL</th>
-		    <td>$ {{ remision['sub_total'] }}</td>	
-		  </tr>
-		  <tr>
-		  	<th>IVA</th>
-		  	<td>$ {{ remision['val_iva'] }}</td>
-		  </tr>
-		  <tr>
-		  	<th>TOTAL</th>
-		  	<td>$ {{ remision['val_total'] }}</td>
-		  </tr>
-  	  	</table>
-	  </div>
-	</div>
-<!-- Fin valores totales --> 
-
-	<div class="container-fluid">
-		<div class="row">
-			<h5><b>Condiciones Comerciales:</b></h5>
-			<div class="col" style="border: 0.5px solid grey; border-radius: 5px; padding: 5px 8px 5px 8px;">
-				<p style="font-size: 14px;">{{ remision['observaciones'] }}</p>
-			</div>
-		</div>
-
-		<div class="row" style="margin-top: 80px;">
-			<div class="col-xs-6">
-				<hr style="border-color: black; width: 80%; margin: 0.5em 0em 0.5em 0em;">
-				<p>{{ datos_cliente['nombre_cliente'] }} </p>
-				<p>CC {{ datos_cliente['identificacion_cliente'] }} </p>
-				<p>Tel: {{ datos_cliente['telefono'] }}</p>
-			</div>
-			<div class="col-xs-6">
-				<hr style="border-color: black; width: 80%; margin: 0.5em 0em 0.5em 0em;">
-				<p>Ignacio Cagua Beltrán</p>
-				<p>CC 3151582</p>
-				<p>Tel: 310 488 4408 - 317 693 7840</p>
-			</div>
+		.logo {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			width: 40%;
+		}
+	</style>
+</head>
+<body>
+<div>
+	
+	<!-- Encabezado -->
+	<div>
+		<div>
+			<img src="/static/img/logo-light.png" alt="Logo" class="logo">
 		</div>
 	</div>
+	<!-- Fin Encabezado -->
 
-<!-- Fin contenedor -->
+	<div>
+			items
+	</div>
+	<div>
+			totales
+	</div>
+	<div>
+			condiciones comerciales			
+	</div>
+	<div style="column-count: 2">
+		<div>
+				firmas 1
+		</div>
+		<div>
+				firmas 2
+		</div>
+	</div>
+</div>
 </body>
 </html>

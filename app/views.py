@@ -760,4 +760,3 @@ def remision(num_remision):
                            name=current_user.username)
 
     return render_pdf(HTML(string=html))
-
