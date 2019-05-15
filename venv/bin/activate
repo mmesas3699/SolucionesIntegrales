@@ -76,3 +76,21 @@ pydoc () {
 if [ -n "${BASH-}" ] || [ -n "${ZSH_VERSION-}" ] ; then
     hash -r 2>/dev/null
 fi
+
+SECRET_KEY='añsldkfjgh12/(#$idkldksi38475'
+MAIL_USERNAME='solintigncag@gmail.com'
+MAIL_PASSWORD='solucionesintegrales2017'
+MAIL_DEFAULT_SENDER='solintigncag@gmail.com'
+
+export SECRET_KEY
+export MAIL_USERNAME
+export MAIL_PASSWORD
+export MAIL_DEFAULT_SENDER
+
+DB_NAME='soluciones_db'
+DB_USER='sa_soluciones'
+DB_PASS='Soluciones_2018'
+
+export DB_NAME
+export DB_USER
+export DB_PASS

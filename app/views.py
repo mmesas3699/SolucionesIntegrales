@@ -341,7 +341,7 @@ def consulta_parametros():
     parametro = cursor.fetchall()
     cursor.close()
 
-    print parametro
+    print(parametro)
     return render_template('consulta_parametros.html',
                            parametros=parametro,
                            name=current_user.username)
