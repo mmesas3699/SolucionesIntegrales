@@ -22,15 +22,13 @@ app.config.from_object('config_app.ProductionConfig')
 db = SQLAlchemy(app)
 
 # conexion a la base de datos con MySQLdb
-
-connectiondb = MySQLdb.connect(host='localhost',
-                               user=app.config['DB_USER'],
-                               passwd=app.config['DB_PASS'],
-                               db=app.config['DB_NAME'],
-                               cursorclass=MySQLdb.cursors.DictCursor,
-                               use_unicode=True,
-                               charset='utf8')
-
+connectiondb = MySQLdb.connect(
+    host='localhost',
+    user=app.config['DB_USER'],
+    passwd=app.config['DB_PASS'],
+    db=app.config['DB_NAME'],
+    cursorclass=MySQLdb.cursors.DictCursor,
+    use_unicode=True)
 
 Bootstrap(app)
 login_manager = LoginManager()
