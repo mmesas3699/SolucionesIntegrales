@@ -1,4 +1,6 @@
 config_app.py
 .vscode/
 venv/
-*.pyc
+./*.pyc
+__pycache__/
+
