@@ -11,7 +11,7 @@ class ProductionConfig(Config):
 
 	DB_NAME = os.environ.get('DB_NAME')
 	DB_USER = os.environ.get('DB_USER')
-	DB_PASS = os.environ.get('DB_PASS')
+	DB_PASS = os.environ.get('DB_PASSWORD')
 
 	WTF_CSRF_ENABLE = True
 	SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -33,9 +33,8 @@ class DevelopConfig(Config):
 	DEBUG = True
 
 	DB_NAME = os.environ.get('DB_NAME')
-	DB_NAME = os.environ.get('DB_NAME')
 	DB_USER = os.environ.get('DB_USER')
-	DB_PASS = os.environ.get('DB_PASS')
+	DB_PASS = os.environ.get('DB_PASSWORD')
 
 	WTF_CSRF_ENABLE = True
 	SECRET_KEY = os.environ.get('SECRET_KEY')

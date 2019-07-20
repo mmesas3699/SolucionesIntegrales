@@ -3,4 +3,4 @@ config_app.py
 venv/
 app/*.pyc
 __pycache__/
-
+*.pyc
