@@ -2,9 +2,9 @@
 """Se definen las vistas de la aplicacion."""
 
 from flask_mail import Message
-from werkzeug.security import check_password_hash  # generate_password_hash,
 from flask_login import login_user, login_required, logout_user, current_user
 from flask_weasyprint import HTML, render_pdf
+from werkzeug.security import check_password_hash  # generate_password_hash,
 
 # from flask import make_response
 from flask import render_template, redirect, url_for, request, jsonify
@@ -14,7 +14,10 @@ from .forms import CommentForm, LoginForm, FormParametrosFactura
 from .models import Comentario, User
 
 
-# ............ Controladores .................
+##################################################################
+#                         Controladores                          #
+##################################################################
+
 
 def generar_numero_factura():
     """Genera los números de factura"""
@@ -55,19 +58,12 @@ def sql_guarda_factura(n_factura, fec_factura, iden_cliente,
 
     cursor_factura = connectiondb.cursor()
 
-    sql_guarda_fac = """INSERT INTO Factura(num_factura,
-                                            fecha_factura,
-                                            identificacion_cliente,
-                                            sub_total,
-                                            val_iva,
-                                            val_total)
-                        VAlUES ('{}','{}','{}',
-                                '{}','{}','{}');""".format(n_factura,
-                                                           fec_factura,
-                                                           iden_cliente,
-                                                           subtotal,
-                                                           val_iva,
-                                                           val_total)
+    sql_guarda_fac = """
+        INSERT INTO Factura(num_factura, fecha_factura, identificacion_cliente,
+                            sub_total, val_iva, val_total)
+        VAlUES ('{}','{}','{}','{}','{}','{}');
+    """.format(n_factura, fec_factura, iden_cliente, subtotal,
+               val_iva, val_total)
 
     try:
         cursor_factura.execute(sql_guarda_fac)
@@ -149,7 +145,10 @@ def guarda_items_factura(num_fac, consecutivo, ref, valUnit, cant, porIva,
         cursor_items_factura.close()
 
 
-# ---------------- Remisiones
+#####################################################################
+#                          Remisiones                               #
+#####################################################################
+
 
 def sql_guarda_remision(num_rem, fec_rem, iden_cliente,
                         subtotal, val_iva, val_total, observaciones):
@@ -215,13 +214,17 @@ def guarda_items_remision(num_rem, consecutivo, ref, valUnit, cant, porIva,
     finally:
         cursor_items_remision.close()
 
-# ................ Vistas ...................
+
+#####################################################################
+#                              VIEWS                                #
+#####################################################################
+
 
 # Inicio o Home
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    """ Renderiza el home """
+    """ Render Home Page """
     form = CommentForm()
 
     return render_template('index.html', form=form)

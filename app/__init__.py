@@ -3,7 +3,7 @@ import sys
 import MySQLdb  # 2019-02-06 mmesas
 import MySQLdb.cursors  # 2019-02-06 mmesas
 
-from importlib import reload
+# from importlib import reload
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -13,11 +13,11 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 
 
-reload(sys)  # 2019-02-06 mmesas
+# reload(sys)  # 2019-02-06 mmesas
 # sys.setdefaultencoding('utf-8')
 
 app = Flask(__name__)
-app.config.from_object('config_app.ProductionConfig')
+app.config.from_object('config_app.DevelopConfig')
 
 db = SQLAlchemy(app)
 
