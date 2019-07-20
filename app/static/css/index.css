@@ -1,0 +1,25 @@
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: 1em;
+}
+
+nav	{
+	background-color: white;
+}
+
+a.nav-link {
+	color: black;
+}
+
+i.material-icons.dehaze.blue {
+	color: Lime;
+}
+
+div.container {
+	margin-top: 60px;
+}
+
+a.navbar-brand > span {
+	font-family: 'Damion', cursive;
+	font-size: 1.55em;
+}
