@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
-import MySQLdb  # 2019-02-06 mmesas
-import MySQLdb.cursors  # 2019-02-06 mmesas
+import pymysql  # 2019-07-25 mmesas: Cambio de mysql-python a pymysql
+import pymysql.cursors # 2019-07-25 mmesas: Cambio de mysql-python a pymysql
 
 # from importlib import reload
 
@@ -22,13 +22,15 @@ app.config.from_object('config_app.DevelopConfig')
 db = SQLAlchemy(app)
 
 # conexion a la base de datos con MySQLdb
-connectiondb = MySQLdb.connect(
-    host='localhost',
+connectiondb = pymysql.connect(
+    host='127.0.0.1',
+    port=33060,
     user=app.config['DB_USER'],
     passwd=app.config['DB_PASS'],
     db=app.config['DB_NAME'],
-    cursorclass=MySQLdb.cursors.DictCursor,
-    use_unicode=True)
+    cursorclass=pymysql.cursors.DictCursor,
+    charset='utf8mb4')
+
 
 Bootstrap(app)
 login_manager = LoginManager()
