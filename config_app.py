@@ -16,7 +16,7 @@ class ProductionConfig(Config):
 	WTF_CSRF_ENABLE = True
 	SECRET_KEY = os.environ.get('SECRET_KEY')
 
-	SQLALCHEMY_DATABASE_URI = 'mysql://{}:{}@localhost/{}'.format(DB_NAME, DB_PASS, DB_NAME)
+	SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{}:{}@127.0.0.1:33060/{}'.format(DB_USER, DB_PASS, DB_NAME)
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 	MAIL_SERVER = 'smtp.gmail.com'
@@ -39,7 +39,7 @@ class DevelopConfig(Config):
 	WTF_CSRF_ENABLE = True
 	SECRET_KEY = os.environ.get('SECRET_KEY')
 
-	SQLALCHEMY_DATABASE_URI = 'mysql://{}:{}@localhost/{}'.format(DB_NAME, DB_PASS, DB_NAME)
+	SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{}:{}@127.0.0.1:33060/{}'.format(DB_USER, DB_PASS, DB_NAME)
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 	MAIL_SERVER = 'smtp.gmail.com'
