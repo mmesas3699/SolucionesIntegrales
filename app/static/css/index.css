@@ -8,7 +8,16 @@ nav	{
 }
 
 a.nav-link {
-	color: white;
+	color: green;
+}
+
+a.navbar-brand {
+	color: red;
+	font-style: italic;
+}
+
+a.navbar-brand > span {
+	color: blue;
 }
 
 i.material-icons.dehaze.blue {

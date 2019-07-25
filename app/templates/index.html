@@ -32,7 +32,7 @@
 <body>
 
 <!-- Top Nav / Menu -->
-<nav class="navbar fixed-top navbar-expand-lg bg-dark">
+<nav class="navbar fixed-top navbar-expand-lg bg-light">
   <a class="navbar-brand" href="#">Soluciones Integrales <span class="d-none d-md-inline-block">ignacio cagua beltrán</span></a>
   <button class="navbar-toggler" 
           type="button"
@@ -45,7 +45,7 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbar">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
         <a class="nav-link" href="#">Inicio</a>
       </li>
@@ -61,7 +61,7 @@
       <li class="nav-item">
         <a class="nav-link" href="#">Contacto</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item"  style="float: right;">
         <a class="nav-link" href="#">Ingreso</a>
       </li>
     </ul>
@@ -74,21 +74,18 @@
     <div class="col">
       
       <!-- Carrusel -->
-      <div class="row p-2 pt-3">
-        <div class="col">
-          <div id="carousel" class="carousel slide" data-ride="carousel">
+      <div class="row mt-3 bg-inverse">
+        <div class="col d-flex justify-content-center">
+          <div id="carousel" class="carousel slide" data-ride="carousel" style="width: 75%; height: 75%;">
             <div class="carousel-inner">
-              <div class="carousel-item active" data-interval="10000">
-                <img src="/static/img/logo-light.png" class="d-block w-100" alt="Logo">
-              </div>
-              <div class="carousel-item" data-interval="2000">
+              <div class="carousel-item active" data-interval="2000">
                 <img src="/static/img/parque1_1.jpeg" class="d-block w-100" alt="Parque 1">
-                <div class="carousel-caption d-none d-md-block">
-                  <h5>First slide label</h5>
-                  <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                <div class="carousel-caption d-none d-md-block" style="font-weight: bold; color: black">
+                  <h5>Parque 1</h5>
+                  <p>Parque 1</p>
                 </div>
               </div>
-              <div class="carousel-item">
+              <div class="carousel-item" data-interval="2000">
                 <img src="/static/img/parque2_2.jpeg" class="d-block w-100" alt="Parque 2">
               </div>
             </div>
