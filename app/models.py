@@ -38,6 +38,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(20), unique=True)
     password = db.Column(db.String(256), unique=False)
 
+    def __repr__(self):
+        return '<User: {}>'.format(self.username)
     # from werkzeug.security import generate_password_hash
     # from app.models import User
     # me = User(username='user', password=generate_password_hash('password'))

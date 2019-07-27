@@ -21,15 +21,14 @@ app.config.from_object('config_app.DevelopConfig')
 
 db = SQLAlchemy(app)
 
-# conexion a la base de datos con MySQLdb
+# conexion a la base de datos con pymysql
 connectiondb = pymysql.connect(
     host='127.0.0.1',
     port=33060,
     user=app.config['DB_USER'],
     passwd=app.config['DB_PASS'],
     db=app.config['DB_NAME'],
-    cursorclass=pymysql.cursors.DictCursor,
-    charset='utf8mb4')
+    cursorclass=pymysql.cursors.DictCursor)
 
 
 Bootstrap(app)

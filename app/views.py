@@ -263,16 +263,16 @@ def procesa_mensaje_contacto():
 # Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    """ Renderiza el login """
+    """ Controla el inicio de sesion de los usuarios ."""
     form = LoginForm()
-
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user:
             if check_password_hash(user.password, form.password.data):
                 login_user(user)
                 return redirect(url_for('dashboard'))
-
+            else:
+                return 'Nombre de usuario o Contraseña invalidos!'
         return 'Nombre de usuario o Contraseña invalidos!'
 
     return render_template('login.html', form=form)
