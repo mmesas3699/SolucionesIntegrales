@@ -43,6 +43,7 @@ th {
 #numero-factura{
 	text-align: center;
 	padding-left: 10px;
+	color: red;
 }
 
 .totales{

@@ -39,7 +39,7 @@ def generar_numero_factura():
     print(resultado_param)
     if len(resultado_fac) == 0:
         if len(resultado_param) == 0:
-            return "Falta capturar los consecutivos de las facturas"
+            return "Falta capturar los Parametros de Factura"
         elif resultado_param[0]['factura_actual']:
             numero_factura = resultado_param[0]['factura_actual']
             return str(numero_factura)
